@@ -16,7 +16,6 @@ sdms-repo/
 ├── docs/              # Coding conventions and design notes
 └── README.md
 ```
-
 ## Running
 
 ```bash
@@ -26,4 +25,8 @@ python -m pytest tests/
 
 ## Authors
 
-Group coursework, 5CM505 Software Engineering, 2025-26.
+5CM505 Software Engineering group coursework, 2025-26.
+
+- Nefeli Vasiadi Papalexi (Lead Developer)
+- Konstantinos Tserkezidis
+- Sanjana Kumar
