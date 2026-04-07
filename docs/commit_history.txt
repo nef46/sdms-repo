@@ -1,0 +1,9 @@
+8f996c0  2026-04-02  Nefeli  test: add SecurityProxy permission, rate limit and model tests
+e27fd31  2026-03-29  Nefeli  test(patterns): cover Singleton identity and Factory role mapping
+6e89d8a  2026-03-27  Nefeli  feat(patterns): add Proxy SecurityProxy with rate limit and audit hooks
+969ffba  2026-03-25  Nefeli  feat(patterns): add Factory Method UserFactory for role-based creation
+81b1169  2026-03-23  Nefeli  feat(patterns): implement Singleton AuditLogger with thread safety
+dd8b67a  2026-03-21  Nefeli  feat(services): add DocumentService interface and OTPService
+2c88813  2026-03-19  Nefeli  feat(models): add Document, AuditLog and Report entities
+6a8bbbc  2026-03-17  Nefeli  feat(models): add User and Session classes from SDS class diagram
+8a2c81f  2026-03-15  Nefeli  chore(repo): initial scaffold with README and coding conventions

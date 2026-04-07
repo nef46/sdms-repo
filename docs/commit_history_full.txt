@@ -1,0 +1,95 @@
+commit 8f996c074542db1c7b60e6d9c898624e574aa189
+Author: Nefeli <nefeli.spina@gmail.com>
+Date:   Thu Apr 2 18:40:00 2026 +0300
+
+    test: add SecurityProxy permission, rate limit and model tests
+
+ tests/test_models.py         | 44 +++++++++++++++++++++++++++++
+ tests/test_security_proxy.py | 66 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 110 insertions(+)
+
+commit e27fd3174a96e16f764292dd7506ec0becb4b603
+Author: Nefeli <nefeli.spina@gmail.com>
+Date:   Sun Mar 29 15:25:00 2026 +0300
+
+    test(patterns): cover Singleton identity and Factory role mapping
+
+ tests/__init__.py          |  0
+ tests/conftest.py          |  6 ++++++
+ tests/test_audit_logger.py | 33 +++++++++++++++++++++++++++++++++
+ tests/test_user_factory.py | 37 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 76 insertions(+)
+
+commit 6e89d8a239bd4ee9b5d66d5a4b2209cf9201ccc5
+Author: Nefeli <nefeli.spina@gmail.com>
+Date:   Fri Mar 27 13:00:00 2026 +0200
+
+    feat(patterns): add Proxy SecurityProxy with rate limit and audit hooks
+
+ src/sdms/patterns/security_proxy.py | 139 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 139 insertions(+)
+
+commit 969ffbace82c528b774c9e55e2aa434d6aced0d2
+Author: Nefeli <nefeli.spina@gmail.com>
+Date:   Wed Mar 25 10:05:00 2026 +0200
+
+    feat(patterns): add Factory Method UserFactory for role-based creation
+
+ src/sdms/patterns/user_factory.py | 62 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+
+commit 81b11693ecc42bb3dd0551a38276bd5e3632c0af
+Author: Nefeli <nefeli.spina@gmail.com>
+Date:   Mon Mar 23 16:30:00 2026 +0200
+
+    feat(patterns): implement Singleton AuditLogger with thread safety
+
+ src/sdms/patterns/__init__.py     | 13 +++++++
+ src/sdms/patterns/audit_logger.py | 78 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 91 insertions(+)
+
+commit dd8b67ad331b0cbdf02cc54b5d267e251cc80d65
+Author: Nefeli <nefeli.spina@gmail.com>
+Date:   Sat Mar 21 11:10:00 2026 +0200
+
+    feat(services): add DocumentService interface and OTPService
+
+ src/sdms/services/__init__.py         |  5 ++++
+ src/sdms/services/document_service.py | 49 +++++++++++++++++++++++++++++++
+ src/sdms/services/otp_service.py      | 55 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 109 insertions(+)
+
+commit 2c888132db37ccb56dd85451e1373b5b0308698c
+Author: Nefeli <nefeli.spina@gmail.com>
+Date:   Thu Mar 19 09:45:00 2026 +0200
+
+    feat(models): add Document, AuditLog and Report entities
+
+ src/sdms/models/audit_log.py | 32 ++++++++++++++++++++
+ src/sdms/models/document.py  | 69 ++++++++++++++++++++++++++++++++++++++++++++
+ src/sdms/models/report.py    | 33 +++++++++++++++++++++
+ 3 files changed, 134 insertions(+)
+
+commit 6a8bbbc284ac7fcc0b24e4fea5f3a3a1bbb41740
+Author: Nefeli <nefeli.spina@gmail.com>
+Date:   Tue Mar 17 14:20:00 2026 +0200
+
+    feat(models): add User and Session classes from SDS class diagram
+
+ requirements.txt            |  1 +
+ src/sdms/__init__.py        |  2 +
+ src/sdms/models/__init__.py |  8 ++++
+ src/sdms/models/session.py  | 37 ++++++++++++++++++
+ src/sdms/models/user.py     | 91 +++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 139 insertions(+)
+
+commit 8a2c81f9726e1ca2bde58c570e609e0225e193c3
+Author: Nefeli <nefeli.spina@gmail.com>
+Date:   Sun Mar 15 10:00:00 2026 +0200
+
+    chore(repo): initial scaffold with README and coding conventions
+
+ .gitignore                 |  4 +++
+ README.md                  | 29 ++++++++++++++++++
+ docs/coding_conventions.md | 75 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 108 insertions(+)
