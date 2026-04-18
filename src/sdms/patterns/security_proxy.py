@@ -9,7 +9,7 @@ Wrap ``RealDocumentService`` so that every call passes through:
 3. Audit logging via the ``AuditLogger`` singleton.
 
 The client only sees the ``DocumentService`` interface, so swapping the
-real service for the proxy is transparent. This is the textbook protective
+real service for the proxy is transparent.  This is the textbook protective
 proxy from Gamma et al. (1994).
 
 OOP / cohesion / coupling
@@ -20,13 +20,22 @@ OOP / cohesion / coupling
 * The audit dependency is the singleton, but the proxy holds it through a
   field rather than reaching into the global, so it can be mocked in
   tests.
-* Single responsibility: this class only enforces security policy. It
+* Single responsibility: this class only enforces security policy.  It
   knows nothing about how documents are stored.
+
+Phase 3 changes (Konstantinos)
+------------------------------
+Added ``reserve`` and ``release`` pass-through methods so the proxy
+continues to honour the full ``DocumentService`` interface after R1.
+Both methods delegate to the real service after a permission check and
+log the action through ``AuditLogger``.
 """
+
 from __future__ import annotations
 
 import re
 import time
+
 from collections import defaultdict, deque
 from typing import Deque, Dict, List, Optional, Set
 
@@ -35,11 +44,11 @@ from ..models.user import User
 from ..services.document_service import DocumentService, RealDocumentService
 from .audit_logger import AuditLogger
 
-
 _FILENAME_RE = re.compile(r"^[A-Za-z0-9_\-. ]{1,128}$")
 
 
 class SecurityProxy(DocumentService):
+
     def __init__(
         self,
         real_service: Optional[RealDocumentService] = None,
@@ -56,6 +65,7 @@ class SecurityProxy(DocumentService):
         self._calls: Dict[int, Deque[float]] = defaultdict(deque)
 
     # ----- Registration helpers ----------------------------------------
+
     def register_user(self, user: User) -> None:
         """The proxy needs to know which permissions each user has."""
         self._users[user.user_id] = user
@@ -64,6 +74,7 @@ class SecurityProxy(DocumentService):
         self._blocked_ips.add(ip)
 
     # ----- DocumentService interface -----------------------------------
+
     def upload_file(self, doc: Document, user_id: int) -> bool:
         self._check_permission(user_id, "write")
         self._check_rate_limit(user_id)
@@ -98,7 +109,32 @@ class SecurityProxy(DocumentService):
         )
         return results
 
+    # --- Phase 3: reserve / release (Konstantinos) ---------------------
+
+    def reserve(self, doc_id: int, user_id: int) -> bool:
+        """Check write permission, delegate to real service, then audit."""
+        self._check_permission(user_id, "write")
+        result = self._service.reserve(doc_id, user_id)
+        self._audit.log_action(
+            user_id=user_id,
+            action_type="RESERVE",
+            document_id=doc_id,
+        )
+        return result
+
+    def release(self, doc_id: int, user_id: int) -> bool:
+        """Check write permission, delegate to real service, then audit."""
+        self._check_permission(user_id, "write")
+        result = self._service.release(doc_id, user_id)
+        self._audit.log_action(
+            user_id=user_id,
+            action_type="RELEASE",
+            document_id=doc_id,
+        )
+        return result
+
     # ----- Internal checks ---------------------------------------------
+
     def _check_permission(self, user_id: int, required: str) -> None:
         user = self._users.get(user_id)
         if user is None:
