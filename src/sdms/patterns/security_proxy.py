@@ -44,7 +44,7 @@ from ..models.user import User
 from ..services.document_service import DocumentService, RealDocumentService
 from .audit_logger import AuditLogger
 
-_FILENAME_RE = re.compile(r"^[A-Za-z0-9_\-. ]{1,128}$")
+_FILENAME_RE = re.compile(r"^[A-Za-z0-9_\-. ()]{1,128}$")
 
 
 class SecurityProxy(DocumentService):
