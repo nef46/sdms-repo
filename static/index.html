@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDMS â Secure Document Management System</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0e14;--s1:#141721;--s2:#1c2030;--s3:#252a3a;
+  --bdr:#2a2f42;--bdr2:#363c54;
+  --t1:#e8ecf4;--t2:#9099b0;--t3:#5c6380;
+  --ac:#7c8cf5;--ac2:#5b6ae0;--acd:rgba(124,140,245,.12);
+  --grn:#3dd68c;--grnd:rgba(61,214,140,.12);
+  --red:#f06b6b;--redd:rgba(240,107,107,.12);
+  --org:#f0b24a;--orgd:rgba(240,178,74,.12);
+  --blu:#5ba8f5;--blud:rgba(91,168,245,.12);
+  --r:10px;--r2:14px;
+}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--t1);line-height:1.55}
+a{color:var(--ac);text-decoration:none}
+
+/* ââ LOGIN ââââââââââââââââââââââââââââââââââââââââ */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 30%,#1a1e30 0%,var(--bg) 70%)}
+.login-box{width:440px;background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r2);padding:40px;text-align:center}
+.login-box h1{font-size:28px;margin-bottom:4px}
+.login-box .sub{color:var(--t2);font-size:14px;margin-bottom:32px}
+.login-box .sub small{display:block;margin-top:4px;color:var(--t3);font-size:12px}
+
+.field{text-align:left;margin-bottom:16px}
+.field label{display:block;font-size:12px;color:var(--t2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.field input{width:100%;padding:10px 14px;background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);color:var(--t1);font-size:15px;outline:none;transition:border .15s}
+.field input:focus{border-color:var(--ac)}
+.field input::placeholder{color:var(--t3)}
+
+.btn{padding:10px 24px;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-lg{width:100%;justify-content:center;padding:13px;font-size:15px}
+.btn-ac{background:var(--ac);color:#fff}.btn-ac:hover{background:var(--ac2)}
+.btn-grn{background:var(--grn);color:#000}
+.btn-out{background:none;border:1px solid var(--bdr);color:var(--t1)}.btn-out:hover{border-color:var(--t2)}
+.btn-sm{padding:6px 14px;font-size:13px}
+.btn-red{background:var(--red);color:#fff}
+
+.err-msg{color:var(--red);font-size:13px;margin-top:8px;min-height:20px}
+
+/* OTP step */
+.otp-step{display:none}
+.otp-sent-msg{background:var(--blud);border:1px solid var(--blu);border-radius:var(--r);padding:14px;margin-bottom:20px;font-size:14px;color:var(--blu);text-align:left}
+.otp-code-display{font-family:'Courier New',monospace;font-size:32px;letter-spacing:10px;color:var(--ac);background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin:12px 0 20px;text-align:center}
+
+/* ââ APP SHELL ââââââââââââââââââââââââââââââââââââ */
+.shell{display:none;height:100vh;flex-direction:column}
+header{background:var(--s1);border-bottom:1px solid var(--bdr);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.logo{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700}
+.logo span{color:var(--t2);font-weight:400;font-size:13px;margin-left:4px}
+.user-bar{display:flex;align-items:center;gap:14px;font-size:14px}
+.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.badge-admin{background:var(--acd);color:var(--ac)}
+.badge-editor{background:var(--grnd);color:var(--grn)}
+.badge-viewer{background:var(--orgd);color:var(--org)}
+
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* sidebar */
+.side{width:210px;background:var(--s1);border-right:1px solid var(--bdr);padding:12px 0;flex-shrink:0;overflow-y:auto}
+.side .lbl{padding:18px 18px 5px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--t3)}
+.side button{display:flex;align-items:center;gap:9px;width:100%;padding:9px 18px;background:none;border:none;color:var(--t2);font-size:13px;cursor:pointer;text-align:left;transition:all .12s;border-left:2px solid transparent}
+.side button:hover{background:var(--s2);color:var(--t1)}
+.side button.on{background:var(--s2);color:var(--ac);border-left-color:var(--ac)}
+
+.content{flex:1;overflow-y:auto;padding:28px 32px}
+
+/* ââ PANELS âââââââââââââââââââââââââââââââââââââââ */
+.pnl{display:none}.pnl.on{display:block}
+.pnl h2{font-size:21px;margin-bottom:4px}.pnl .sub{color:var(--t2);font-size:13px;margin-bottom:22px}
+
+.card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:14px}
+.card h3{font-size:14px;margin-bottom:12px;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
+
+.stats{display:flex;gap:14px;margin-bottom:22px}
+.stat{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 24px;flex:1;text-align:center}
+.stat .n{font-size:30px;font-weight:700}.stat .l{font-size:11px;color:var(--t2);text-transform:uppercase;margin-top:2px}
+
+/* tables */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;padding:7px 10px;border-bottom:1px solid var(--bdr)}
+td{padding:9px 10px;border-bottom:1px solid var(--bdr);font-size:13px}
+tr:hover td{background:var(--s2)}
+
+/* file upload */
+.drop-zone{border:2px dashed var(--bdr2);border-radius:var(--r);padding:40px;text-align:center;color:var(--t2);transition:all .2s;cursor:pointer;margin-bottom:16px}
+.drop-zone:hover,.drop-zone.over{border-color:var(--ac);background:var(--acd);color:var(--t1)}
+.drop-zone .icon{font-size:36px;margin-bottom:8px;display:block}
+.drop-zone input{display:none}
+.file-info{background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;font-size:14px}
+.file-info .name{font-weight:600}.file-info .size{color:var(--t2);font-size:13px}
+
+/* result boxes */
+.res-ok{background:var(--grnd);border:1px solid var(--grn);border-radius:var(--r);padding:14px;color:var(--grn);font-size:14px;margin-top:12px}
+.res-err{background:var(--redd);border:1px solid var(--red);border-radius:var(--r);padding:14px;color:var(--red);font-size:14px;margin-top:12px}
+.res-info{background:var(--blud);border:1px solid var(--blu);border-radius:var(--r);padding:14px;color:var(--blu);font-size:14px;margin-top:12px}
+.res-warn{background:var(--orgd);border:1px solid var(--org);border-radius:var(--r);padding:14px;color:var(--org);font-size:14px;margin-top:12px}
+
+/* patterns */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.pcard{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:20px}
+.pcard h3{color:var(--ac);font-size:15px;margin-bottom:2px}
+.pcard .cls{color:var(--t3);font-size:12px;font-family:monospace;margin-bottom:10px}
+.pcard p{font-size:13px;color:var(--t2);line-height:1.6}
+.pcard .fl{margin-top:10px;font-size:11px;color:var(--t3);font-family:monospace}
+
+/* notifications */
+.nitem{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--bdr);font-size:13px}
+.evb{padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase;min-width:76px;text-align:center}
+.ev-uploaded{background:var(--grnd);color:var(--grn)}
+.ev-downloaded{background:var(--blud);color:var(--blu)}
+.ev-reserved{background:var(--orgd);color:var(--org)}
+.ev-released{background:var(--acd);color:var(--ac)}
+
+.empty{text-align:center;padding:32px;color:var(--t3);font-size:14px}
+
+/* toast */
+.toasts{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{padding:11px 18px;border-radius:var(--r);font-size:13px;max-width:380px;animation:tin .25s ease}
+.t-ok{background:var(--grnd);border:1px solid var(--grn);color:var(--grn)}
+.t-err{background:var(--redd);border:1px solid var(--red);color:var(--red)}
+.t-info{background:var(--blud);border:1px solid var(--blu);color:var(--blu)}
+@keyframes tin{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+.row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+code{background:var(--s2);padding:1px 6px;border-radius:4px;font-size:13px}
+
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- âââââââ LOGIN âââââââ -->
+<div class="login-wrap" id="loginWrap">
+<div class="login-box">
+  <div style="color:var(--ac);margin-bottom:18px">
+    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+  </div>
+  <h1>SDMS</h1>
+  <p class="sub">Secure Document Management System<small>5CM505 Software Engineering â Phase 3 Demo</small></p>
+
+  <!-- Step 1: password -->
+  <div id="loginStep1">
+    <div class="field"><label>Username</label><input id="inUser" placeholder="Enter username" autocomplete="off"></div>
+    <div class="field"><label>Password</label><input id="inPass" type="password" placeholder="Enter password"></div>
+    <button class="btn btn-ac btn-lg" onclick="doStep1()">Sign In</button>
+    <div class="err-msg" id="loginErr"></div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--bdr);text-align:left">
+      <p style="font-size:12px;color:var(--t3);margin-bottom:8px">DEMO ACCOUNTS</p>
+      <table style="font-size:13px">
+        <tr><td style="color:var(--t2);border:none;padding:3px 12px 3px 0">nefeli</td><td style="border:none;padding:3px 12px 3px 0">admin2026</td><td style="border:none;padding:3px 0"><span class="badge badge-admin">Admin</span></td></tr>
+        <tr><td style="color:var(--t2);border:none;padding:3px 12px 3px 0">konstantinos</td><td style="border:none;padding:3px 12px 3px 0">editor2026</td><td style="border:none;padding:3px 0"><span class="badge badge-editor">Editor</span></td></tr>
+        <tr><td style="color:var(--t2);border:none;padding:3px 12px 3px 0">sanjana</td><td style="border:none;padding:3px 12px 3px 0">viewer2026</td><td style="border:none;padding:3px 0"><span class="badge badge-viewer">Viewer</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Step 2: OTP -->
+  <div id="loginStep2" class="otp-step">
+    <div class="otp-sent-msg" id="otpMsg"></div>
+    <p style="font-size:12px;color:var(--t3);margin-bottom:4px">FOR DEMO PURPOSES, THE CODE IS SHOWN BELOW:</p>
+    <div class="otp-code-display" id="otpHint"></div>
+    <div class="field"><label>Enter 6-Digit Code</label><input id="inOtp" placeholder="000000" maxlength="6" autocomplete="off"></div>
+    <button class="btn btn-grn btn-lg" onclick="doStep2()">Verify &amp; Login</button>
+    <div class="err-msg" id="otpErr"></div>
+    <button class="btn btn-out btn-sm" style="margin-top:12px" onclick="backToStep1()">Back</button>
+  </div>
+</div>
+</div>
+
+<!-- âââââââ APP âââââââ -->
+<div class="shell" id="shell">
+<header>
+  <div class="logo">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ac)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    SDMS <span>Secure Document Management</span>
+  </div>
+  <div class="user-bar">
+    <span id="hUser"></span>
+    <span id="hBadge" class="badge"></span>
+    <button class="btn btn-out btn-sm" onclick="doLogout()">Sign Out</button>
+  </div>
+</header>
+<div class="app-body">
+<nav class="side">
+  <div class="lbl">Overview</div>
+  <button onclick="go('dash')" id="n-dash" class="on">Dashboard</button>
+  <div class="lbl">Documents</div>
+  <button onclick="go('upload')" id="n-upload">Upload File</button>
+  <button onclick="go('browse')" id="n-browse">Browse &amp; Search</button>
+  <div class="lbl">Security</div>
+  <button onclick="go('audit')" id="n-audit">Audit Log</button>
+  <button onclick="go('notif')" id="n-notif">Notifications</button>
+  <div class="lbl">Architecture</div>
+  <button onclick="go('patterns')" id="n-patterns">Design Patterns</button>
+  <div class="lbl" id="lbl-attacks">Security Demos</div>
+  <button onclick="go('attacks')" id="n-attacks">Attack Simulations</button>
+</nav>
+<main class="content">
+
+<!-- DASHBOARD -->
+<div id="p-dash" class="pnl on">
+  <h2>Dashboard</h2><p class="sub">System overview</p>
+  <div class="stats">
+    <div class="stat"><div class="n" id="sDocs">0</div><div class="l">Documents</div></div>
+    <div class="stat"><div class="n" id="sAudit">0</div><div class="l">Audit Entries</div></div>
+    <div class="stat"><div class="n" id="sNotif">0</div><div class="l">Notifications</div></div>
+    <div class="stat"><div class="n" id="sUsers">3</div><div class="l">Users</div></div>
+  </div>
+  <div class="card"><h3>Recent Activity</h3><table><thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th></tr></thead><tbody id="dashAudit"></tbody></table></div>
+</div>
+
+<!-- UPLOAD -->
+<div id="p-upload" class="pnl">
+  <h2>Upload File</h2><p class="sub">Files are encrypted with AES-256-GCM via the Strategy pattern before storage</p>
+  <div class="card">
+    <h3>Select File</h3>
+    <div class="drop-zone" id="dropZone">
+      <span class="icon">&#128196;</span>
+      <strong>Drag &amp; drop a file here</strong><br><span style="font-size:13px">or click to browse (max 50 MB)</span>
+      <input type="file" id="fileInput">
+    </div>
+    <div id="fileInfo" style="display:none" class="file-info">
+      <div><span class="name" id="fileName"></span><br><span class="size" id="fileSize"></span></div>
+      <button class="btn btn-out btn-sm" onclick="clearFile()">Remove</button>
+    </div>
+    <button class="btn btn-ac" onclick="doUpload()" id="uploadBtn" disabled>Upload &amp; Encrypt</button>
+    <div id="uploadRes"></div>
+  </div>
+</div>
+
+<!-- BROWSE -->
+<div id="p-browse" class="pnl">
+  <h2>Browse &amp; Search</h2><p class="sub">Download (decrypts), reserve (locks for editing), release. Observer fires on each.</p>
+  <div class="card">
+    <div class="row" style="margin-bottom:0">
+      <div class="field" style="margin:0;flex:1"><label>Search by name</label><input id="searchQ" placeholder="e.g. report"></div>
+      <button class="btn btn-ac btn-sm" onclick="doSearch()" style="margin-bottom:1px">Search</button>
+      <button class="btn btn-out btn-sm" onclick="loadDocs()" style="margin-bottom:1px">Show All</button>
+    </div>
+  </div>
+  <div class="card"><table><thead><tr><th>ID</th><th>Name</th><th>Owner</th><th>Ver</th><th>Size</th><th>Lock</th><th style="width:220px">Actions</th></tr></thead><tbody id="docTb"></tbody></table><div class="empty" id="docEmpty">No documents yet. Upload a file first.</div></div>
+  <div id="dlRes"></div>
+</div>
+
+<!-- AUDIT -->
+<div id="p-audit" class="pnl">
+  <h2>Audit Log</h2><p class="sub">AuditLogger singleton â thread-safe, append-only trail shared across all modules</p>
+  <div class="row" style="margin-bottom:14px"><button class="btn btn-ac btn-sm" onclick="loadAudit()">Refresh</button><button class="btn btn-out btn-sm" id="genReportBtn" onclick="genReport()">Generate Report</button></div>
+  <div class="card"><table><thead><tr><th>#</th><th>Time</th><th>User</th><th>Action</th><th>Doc</th><th>Details</th></tr></thead><tbody id="auditTb"></tbody></table></div>
+  <div id="reportRes"></div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div id="p-notif" class="pnl">
+  <h2>Observer Notifications</h2><p class="sub">NotificationService receives DocumentEvent objects from RealDocumentService (Subject)</p>
+  <button class="btn btn-ac btn-sm" onclick="loadNotifs()" style="margin-bottom:14px">Refresh</button>
+  <div class="card" id="notifList"><div class="empty">No notifications. Upload or reserve a document to trigger observer events.</div></div>
+</div>
+
+<!-- PATTERNS -->
+<div id="p-patterns" class="pnl">
+  <h2>Design Patterns</h2><p class="sub">Five GoF patterns implemented in the SDMS codebase</p>
+  <div class="pgrid" id="patGrid"></div>
+</div>
+
+<!-- ATTACK DEMOS -->
+<div id="p-attacks" class="pnl">
+  <h2>Security Demonstrations</h2><p class="sub">Test the Proxy pattern's defences against common attack vectors</p>
+
+  <div class="card">
+    <h3>1. Path Traversal Attack</h3>
+    <p style="color:var(--t2);font-size:13px;margin-bottom:12px">Attempt to upload a file named <code>../etc/passwd</code> to escape the document directory.</p>
+    <button class="btn btn-red btn-sm" onclick="atkPath()">Run Attack</button>
+    <div id="atkPathRes"></div>
+  </div>
+
+  <div class="card">
+    <h3>2. SQL Injection Attack</h3>
+    <p style="color:var(--t2);font-size:13px;margin-bottom:12px">Send a search query containing <code>'; DROP TABLE users; --</code> to attempt database manipulation.</p>
+    <button class="btn btn-red btn-sm" onclick="atkSql()">Run Attack</button>
+    <div id="atkSqlRes"></div>
+  </div>
+
+  <div class="card">
+    <h3>3. Privilege Escalation</h3>
+    <p style="color:var(--t2);font-size:13px;margin-bottom:12px">Attempt to upload a document as Sanjana (Viewer role, no write permission).</p>
+    <button class="btn btn-red btn-sm" onclick="atkPerm()">Run Attack</button>
+    <div id="atkPermRes"></div>
+  </div>
+
+  <div class="card">
+    <h3>4. Rate Limit Exhaustion</h3>
+    <p style="color:var(--t2);font-size:13px;margin-bottom:12px">Send 11 rapid requests to exceed the 10-request sliding window limit.</p>
+    <button class="btn btn-red btn-sm" onclick="atkRate()">Run Attack</button>
+    <div id="atkRateRes"></div>
+  </div>
+</div>
+
+</main>
+</div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+const U = {1:"Nefeli",2:"Konstantinos",3:"Sanjana"};
+let me = null;
+let pendingUid = null;
+let selectedFile = null;
+
+/* ââ API âââââââââââââââââââââââââââââââ */
+async function api(p,m="GET",b=null){
+  const o = {method:m,headers:{"Content-Type":"application/json"}};
+  if(b) o.body = JSON.stringify(b);
+  const r = await fetch("/api"+p,o);
+  const d = await r.json();
+  if(!r.ok) d._err=true;
+  return d;
+}
+function toast(m,t="info"){
+  const e=document.createElement("div");
+  e.className="toast t-"+t; e.textContent=m;
+  document.getElementById("toasts").appendChild(e);
+  setTimeout(()=>e.remove(),3500);
+}
+function go(n){
+  document.querySelectorAll(".pnl").forEach(p=>p.classList.remove("on"));
+  document.querySelectorAll(".side button").forEach(b=>b.classList.remove("on"));
+  document.getElementById("p-"+n).classList.add("on");
+  const nb=document.getElementById("n-"+n); if(nb) nb.classList.add("on");
+  if(n==="dash") refreshDash();
+  if(n==="browse") loadDocs();
+  if(n==="audit") loadAudit();
+  if(n==="notif") loadNotifs();
+  if(n==="patterns") loadPats();
+}
+
+/* ââ AUTH âââââââââââââââââââââââââââââââ */
+async function doStep1(){
+  const u=document.getElementById("inUser").value.trim();
+  const p=document.getElementById("inPass").value;
+  document.getElementById("loginErr").textContent="";
+  if(!u||!p){document.getElementById("loginErr").textContent="Enter both fields";return}
+
+  const d=await api("/auth/login","POST",{username:u,password:p});
+  if(d._err){document.getElementById("loginErr").textContent=d.error;return}
+
+  pendingUid=d.user_id;
+  document.getElementById("otpMsg").innerHTML=d.message;
+  document.getElementById("otpHint").textContent=d.otp_hint;
+  document.getElementById("loginStep1").style.display="none";
+  document.getElementById("loginStep2").style.display="block";
+  document.getElementById("inOtp").focus();
+}
+
+async function doStep2(){
+  const c=document.getElementById("inOtp").value.trim();
+  document.getElementById("otpErr").textContent="";
+  if(!c){document.getElementById("otpErr").textContent="Enter the 6-digit code";return}
+
+  const d=await api("/auth/verify-otp","POST",{user_id:pendingUid,code:c});
+  if(d._err){document.getElementById("otpErr").textContent=d.error;return}
+
+  me=d.user;
+  document.getElementById("loginWrap").style.display="none";
+  const sh=document.getElementById("shell"); sh.style.display="flex";
+  document.getElementById("hUser").textContent=me.name;
+  const b=document.getElementById("hBadge"); b.textContent=me.role; b.className="badge badge-"+me.role;
+  applyRoleAccess();
+  toast("Logged in as "+me.name+" ("+me.role+")","ok");
+  refreshDash();
+}
+
+function backToStep1(){
+  document.getElementById("loginStep2").style.display="none";
+  document.getElementById("loginStep1").style.display="block";
+  document.getElementById("inOtp").value="";
+  document.getElementById("otpErr").textContent="";
+}
+
+async function doLogout(){
+  if(!me)return;
+  await api("/auth/logout","POST",{user_id:me.user_id});
+  toast(me.name+" signed out","info");
+  me=null;
+  document.getElementById("shell").style.display="none";
+  document.getElementById("loginWrap").style.display="flex";
+  document.getElementById("loginStep1").style.display="block";
+  document.getElementById("loginStep2").style.display="none";
+  document.getElementById("inUser").value="";
+  document.getElementById("inPass").value="";
+  document.getElementById("inOtp").value="";
+  go("dash");
+}
+
+// Enter key on password field
+document.getElementById("inPass").addEventListener("keydown",e=>{if(e.key==="Enter")doStep1()});
+document.getElementById("inOtp").addEventListener("keydown",e=>{if(e.key==="Enter")doStep2()});
+
+/* ââ ROLE-BASED ACCESS âââââââââââââââââ */
+function applyRoleAccess(){
+  if(!me) return;
+  const perms = me.permissions || [];
+  const canWrite = perms.includes("write");
+  const canAudit = perms.includes("view_audit");
+  const canManage = perms.includes("manage_users");
+
+  // Sidebar visibility
+  document.getElementById("n-upload").style.display = canWrite ? "" : "none";
+  document.getElementById("n-attacks").style.display = canWrite ? "" : "none";
+  document.getElementById("lbl-attacks").style.display = canWrite ? "" : "none";
+  document.getElementById("n-audit").style.display = canAudit ? "" : "none";
+
+  // Generate report button (audit page)
+  const reportBtn = document.getElementById("genReportBtn");
+  if(reportBtn) reportBtn.style.display = canAudit ? "" : "none";
+
+  // If current panel is hidden for this role, go back to dashboard
+  const cur = document.querySelector(".pnl.on");
+  if(cur){
+    const id = cur.id.replace("p-","");
+    if((id==="upload"||id==="attacks") && !canWrite) go("dash");
+    if(id==="audit" && !canAudit) go("dash");
+  }
+
+  // Dashboard permissions card
+  let permCard = document.getElementById("permCard");
+  if(!permCard){
+    permCard = document.createElement("div");
+    permCard.id = "permCard";
+    permCard.className = "card";
+    const dashPnl = document.getElementById("p-dash");
+    dashPnl.appendChild(permCard);
+  }
+  permCard.innerHTML = `<h3>Your Permissions</h3>
+    <p style="color:var(--t2);font-size:13px;margin-bottom:10px">Logged in as <strong style="color:var(--t1)">${me.name}</strong> with role <span class="badge badge-${me.role}" style="margin-left:4px">${me.role}</span></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${perms.map(p=>`<span style="background:var(--s2);border:1px solid var(--bdr);border-radius:4px;padding:4px 10px;font-size:12px;color:var(--grn)">&#10003; ${p}</span>`).join("")}</div>
+    ${!canWrite?'<p style="color:var(--org);font-size:12px;margin-top:10px">&#9888; You cannot upload, reserve, or release documents.</p>':''}
+    ${!canAudit?'<p style="color:var(--org);font-size:12px;margin-top:6px">&#9888; Audit log access is restricted to Admin users.</p>':''}`;
+}
+
+function canWrite(){ return me && me.permissions && me.permissions.includes("write"); }
+
+/* ââ DASHBOARD âââââââââââââââââââââââââ */
+async function refreshDash(){
+  const [docs,audit,notifs]=await Promise.all([api("/documents"),api("/audit"),api("/notifications")]);
+  document.getElementById("sDocs").textContent=docs.length;
+  document.getElementById("sAudit").textContent=audit.length;
+  document.getElementById("sNotif").textContent=notifs.length;
+  const tb=document.getElementById("dashAudit");
+  const recent=audit.slice(-8).reverse();
+  tb.innerHTML=recent.map(e=>`<tr><td>${new Date(e.timestamp).toLocaleTimeString()}</td><td>${U[e.user_id]||"System"}</td><td><code>${e.action_type}</code></td><td style="color:var(--t2)">${e.details||"â"}</td></tr>`).join("")||'<tr><td colspan="4" class="empty">No activity</td></tr>';
+}
+
+/* ââ FILE UPLOAD âââââââââââââââââââââââ */
+const dz=document.getElementById("dropZone");
+const fi=document.getElementById("fileInput");
+
+dz.addEventListener("click",()=>fi.click());
+dz.addEventListener("dragover",e=>{e.preventDefault();dz.classList.add("over")});
+dz.addEventListener("dragleave",()=>dz.classList.remove("over"));
+dz.addEventListener("drop",e=>{e.preventDefault();dz.classList.remove("over");if(e.dataTransfer.files.length)pickFile(e.dataTransfer.files[0])});
+fi.addEventListener("change",()=>{if(fi.files.length)pickFile(fi.files[0])});
+
+function pickFile(f){
+  selectedFile=f;
+  document.getElementById("fileName").textContent=f.name;
+  document.getElementById("fileSize").textContent=formatBytes(f.size);
+  document.getElementById("fileInfo").style.display="flex";
+  dz.style.display="none";
+  document.getElementById("uploadBtn").disabled=false;
+}
+function clearFile(){
+  selectedFile=null;fi.value="";
+  document.getElementById("fileInfo").style.display="none";
+  dz.style.display="block";
+  document.getElementById("uploadBtn").disabled=true;
+  document.getElementById("uploadRes").innerHTML="";
+}
+function formatBytes(b){if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(1)+" MB"}
+
+async function doUpload(){
+  if(!selectedFile||!me)return;
+  const fd=new FormData();
+  fd.append("file",selectedFile);
+  fd.append("user_id",me.user_id);
+  const r=await fetch("/api/upload",{method:"POST",body:fd});
+  const d=await r.json();
+  const el=document.getElementById("uploadRes");
+  if(!r.ok){
+    el.innerHTML=`<div class="res-err"><strong>Upload blocked</strong><br>${d.error}</div>`;
+    toast("Blocked: "+d.error,"err");
+  } else {
+    el.innerHTML=`<div class="res-ok"><strong>${selectedFile.name}</strong> uploaded and encrypted<br><span style="opacity:.8">Original: ${formatBytes(d.original_size)} â Encrypted: ${formatBytes(d.encrypted_size)} (AES-256-GCM)</span></div>`;
+    toast("File uploaded and encrypted","ok");
+    clearFile();
+  }
+}
+
+/* ââ BROWSE ââââââââââââââââââââââââââââ */
+async function loadDocs(){
+  const docs=await api("/documents");
+  const tb=document.getElementById("docTb");
+  const em=document.getElementById("docEmpty");
+  if(!docs.length){tb.innerHTML="";em.style.display="block";return}
+  em.style.display="none";
+  const w = canWrite();
+  tb.innerHTML=docs.map(d=>`<tr>
+    <td>${d.doc_id}</td>
+    <td>${d.name} ${d.encrypted?'<span style="color:var(--grn);font-size:10px;font-weight:700">AES-256</span>':''}</td>
+    <td>${U[d.owner_id]||d.owner_id}</td>
+    <td>v${d.version}</td>
+    <td>${formatBytes(d.size)}</td>
+    <td>${d.locked_by?'<span style="color:var(--org)">'+U[d.locked_by]+'</span>':'<span style="color:var(--grn)">Free</span>'}</td>
+    <td><button class="btn btn-out btn-sm" onclick="doDl(${d.doc_id})">Download</button>${w?' <button class="btn btn-out btn-sm" onclick="doRes('+d.doc_id+')">Reserve</button> <button class="btn btn-out btn-sm" onclick="doRel('+d.doc_id+')">Release</button>':''}</td>
+  </tr>`).join("");
+}
+
+async function doSearch(){
+  const q=document.getElementById("searchQ").value.trim();
+  if(!q){loadDocs();return}
+  const d=await api("/search","POST",{query:q});
+  if(d._err){toast("Blocked: "+d.error,"err");return}
+  const tb=document.getElementById("docTb"),em=document.getElementById("docEmpty");
+  if(!d.results.length){tb.innerHTML="";em.style.display="block";em.textContent='No results for "'+q+'"';return}
+  em.style.display="none";
+  const w2 = canWrite();
+  tb.innerHTML=d.results.map(d=>`<tr><td>${d.doc_id}</td><td>${d.name}</td><td>${U[d.owner_id]||d.owner_id}</td><td>v${d.version}</td><td>${formatBytes(d.size)}</td><td>${d.locked_by?'<span style="color:var(--org)">Locked</span>':'<span style="color:var(--grn)">Free</span>'}</td><td><button class="btn btn-out btn-sm" onclick="doDl(${d.doc_id})">Download</button>${w2?' <button class="btn btn-out btn-sm" onclick="doRes('+d.doc_id+')">Reserve</button> <button class="btn btn-out btn-sm" onclick="doRel('+d.doc_id+')">Release</button>':''}</td></tr>`).join("");
+  toast(d.count+" result(s)","info");
+}
+
+async function doDl(id){
+  const d=await api("/download","POST",{user_id:me.user_id,doc_id:id});
+  const el=document.getElementById("dlRes");
+  if(d._err){el.innerHTML=`<div class="res-err">${d.error}</div>`;toast(d.error,"err");return}
+  if(d.binary){
+    el.innerHTML=`<div class="card"><h3>Downloaded: ${d.document.name}</h3><p style="color:var(--t2);font-size:13px">Binary file (${formatBytes(d.document.size)}), decrypted successfully.</p></div>`;
+  } else {
+    el.innerHTML=`<div class="card"><h3>Downloaded: ${d.document.name}</h3><p style="color:var(--t2);font-size:12px;margin-bottom:8px">Decrypted content:</p><pre style="background:var(--s2);padding:12px;border-radius:var(--r);font-size:13px;white-space:pre-wrap;max-height:200px;overflow-y:auto">${d.content}</pre></div>`;
+  }
+  toast("Decrypted and downloaded","ok");
+}
+
+async function doRes(id){
+  const d=await api("/reserve","POST",{user_id:me.user_id,doc_id:id});
+  if(d._err){toast(d.error,"err")}else if(d.success){toast("Document "+id+" reserved","ok")}else{toast("Already locked by another user","err")}
+  loadDocs();
+}
+async function doRel(id){
+  const d=await api("/release","POST",{user_id:me.user_id,doc_id:id});
+  if(d._err){toast(d.error,"err")}else if(d.success){toast("Document "+id+" released","ok")}else{toast("You don't hold the lock","err")}
+  loadDocs();
+}
+
+/* ââ AUDIT âââââââââââââââââââââââââââââ */
+async function loadAudit(){
+  const logs=await api("/audit");
+  document.getElementById("auditTb").innerHTML=logs.slice().reverse().map(e=>`<tr><td>${e.audit_id}</td><td style="font-size:12px">${new Date(e.timestamp).toLocaleString()}</td><td>${U[e.user_id]||e.user_id}</td><td><code>${e.action_type}</code></td><td>${e.document_id??"â"}</td><td style="color:var(--t2);font-size:12px">${e.details||"â"}</td></tr>`).join("")||'<tr><td colspan="6" class="empty">No entries</td></tr>';
+}
+async function genReport(){
+  if(!me)return;
+  const d=await api("/audit/report","POST",{user_id:me.user_id});
+  document.getElementById("reportRes").innerHTML=`<div class="card" style="margin-top:14px"><h3>Generated Report (${formatBytes(d.size)})</h3><pre style="background:var(--s2);padding:12px;border-radius:var(--r);font-size:12px;max-height:280px;overflow-y:auto;white-space:pre-wrap">${d.body}</pre></div>`;
+  toast("Report generated","ok");
+}
+
+/* ââ NOTIFICATIONS âââââââââââââââââââââ */
+async function loadNotifs(){
+  const evts=await api("/notifications");
+  const el=document.getElementById("notifList");
+  if(!evts.length){el.innerHTML='<div class="empty">No notifications. Upload or reserve a document to trigger observer events.</div>';return}
+  el.innerHTML=evts.slice().reverse().map(e=>`<div class="nitem"><span class="evb ev-${e.event_type}">${e.event_type}</span><span>Document #${e.document_id} by ${U[e.actor_user_id]||"User "+e.actor_user_id}</span><span style="color:var(--t3);margin-left:auto">${e.details||""}</span></div>`).join("");
+}
+
+/* ââ PATTERNS ââââââââââââââââââââââââââ */
+async function loadPats(){
+  const pats=await api("/patterns");
+  document.getElementById("patGrid").innerHTML=pats.map(p=>`<div class="pcard"><h3>${p.name}</h3><div class="cls">${p.class}</div><p>${p.description}</p><div class="fl">${p.file}</div></div>`).join("");
+}
+
+/* ââ ATTACKS âââââââââââââââââââââââââââ */
+async function atkPath(){
+  const d=await api("/upload-text","POST",{user_id:me.user_id,filename:"../etc/passwd",content:"malicious payload"});
+  document.getElementById("atkPathRes").innerHTML=d._err
+    ?`<div class="res-err"><strong>BLOCKED by SecurityProxy._sanitize()</strong><br>Filename rejected: ${d.error}<br><span style="opacity:.7">The regex <code>^[A-Za-z0-9_\\-. ()]{1,128}$</code> rejects path separators and special characters.</span></div>`
+    :`<div class="res-ok">Unexpected: upload succeeded</div>`;
+}
+async function atkSql(){
+  const d=await api("/search","POST",{query:"'; DROP TABLE users; --"});
+  document.getElementById("atkSqlRes").innerHTML=d._err
+    ?`<div class="res-err"><strong>BLOCKED by SecurityProxy._validate_input()</strong><br>${d.error}<br><span style="opacity:.7">Characters <code>; -- &lt; &gt;</code> are rejected from search queries.</span></div>`
+    :`<div class="res-ok">Unexpected: search succeeded</div>`;
+}
+async function atkPerm(){
+  const d=await api("/upload-text","POST",{user_id:3,filename:"escalation.pdf",content:"viewer attempting write"});
+  document.getElementById("atkPermRes").innerHTML=d._err
+    ?`<div class="res-warn"><strong>BLOCKED by SecurityProxy._check_permission()</strong><br>${d.error}<br><span style="opacity:.7">Viewer role only has <code>["read"]</code> permission. Write requires Editor or Admin.</span></div>`
+    :`<div class="res-ok">Unexpected: upload succeeded</div>`;
+}
+async function atkRate(){
+  const el=document.getElementById("atkRateRes");
+  el.innerHTML='<div class="res-info">Sending 11 rapid requests...</div>';
+  let blocked=false;let count=0;
+  for(let i=0;i<11;i++){
+    const d=await api("/upload-text","POST",{user_id:me.user_id,filename:`ratelimit_${i}.txt`,content:"flood"});
+    if(d._err&&d.error&&d.error.includes("Rate limit")){blocked=true;count=i+1;break}
+    count=i+1;
+  }
+  el.innerHTML=blocked
+    ?`<div class="res-err"><strong>BLOCKED by SecurityProxy._check_rate_limit()</strong><br>Request #${count} was rejected.<br><span style="opacity:.7">Sliding window: max 10 requests per 60 seconds per user.</span></div>`
+    :`<div class="res-warn">Rate limit was not triggered within 11 requests.</div>`;
+}
+</script>
+</body>
+</html>
