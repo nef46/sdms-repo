@@ -1,19 +1,16 @@
+from src.otp_service import OTPService
+
 def test_valid_otp_sanjana():
-    generated_otp = "123456"
-    entered_otp = "123456"
-
-    assert generated_otp == entered_otp
-
+    service = OTPService()
+    result = service.validate("123456", "123456")
+    assert result is True
 
 def test_invalid_otp_sanjana():
-    generated_otp = "123456"
-    entered_otp = "000000"
-
-    assert generated_otp != entered_otp
-
+    service = OTPService()
+    result = service.validate("123456", "000000")
+    assert result is False
 
 def test_empty_otp_sanjana():
-    generated_otp = "123456"
-    entered_otp = ""
-
-    assert generated_otp != entered_otp
+    service = OTPService()
+    result = service.validate("123456", "")
+    assert result is False
