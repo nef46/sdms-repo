@@ -3,264 +3,375 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SDMS â Secure Document Management System</title>
+<title>SDMS — Secure Document Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0c0e14;--s1:#141721;--s2:#1c2030;--s3:#252a3a;
-  --bdr:#2a2f42;--bdr2:#363c54;
-  --t1:#e8ecf4;--t2:#9099b0;--t3:#5c6380;
-  --ac:#7c8cf5;--ac2:#5b6ae0;--acd:rgba(124,140,245,.12);
-  --grn:#3dd68c;--grnd:rgba(61,214,140,.12);
-  --red:#f06b6b;--redd:rgba(240,107,107,.12);
-  --org:#f0b24a;--orgd:rgba(240,178,74,.12);
-  --blu:#5ba8f5;--blud:rgba(91,168,245,.12);
-  --r:10px;--r2:14px;
+  --bg:#f0f2f5;--s1:#ffffff;--s2:#f8fafc;--s3:#eef1f5;
+  --bdr:#d1d9e6;--bdr2:#c8d3e0;
+  --t1:#0f172a;--t2:#64748b;--t3:#94a3b8;
+  --ac:#1e40af;--ac2:#1d4ed8;--acd:#dbeafe;
+  --grn:#16a34a;--grnd:#dcfce7;--grnb:#bbf7d0;
+  --red:#dc2626;--redd:#fee2e2;--redb:#fecaca;
+  --org:#d97706;--orgd:#fef3c7;--orgb:#fde68a;
+  --blu:#2563eb;--blud:#eff6ff;--blub:#bfdbfe;
+  --dark:#1e293b;--gray:#e2e8f0;
+  --r:6px;--r2:12px;
 }
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--t1);line-height:1.55}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--t1);line-height:1.55}
 a{color:var(--ac);text-decoration:none}
 
-/* ââ LOGIN ââââââââââââââââââââââââââââââââââââââââ */
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 30%,#1a1e30 0%,var(--bg) 70%)}
-.login-box{width:440px;background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r2);padding:40px;text-align:center}
-.login-box h1{font-size:28px;margin-bottom:4px}
-.login-box .sub{color:var(--t2);font-size:14px;margin-bottom:32px}
-.login-box .sub small{display:block;margin-top:4px;color:var(--t3);font-size:12px}
+/* ── LOGIN ─────────────────────────────── */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+.login-box{width:420px;text-align:center}
+.login-logo{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700;color:var(--ac);margin-bottom:2px}
+.login-tagline{font-size:12px;color:var(--t2);margin-bottom:20px}
+.login-card{background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r2);padding:24px;text-align:left}
+.login-card-title{font-weight:700;font-size:15px;margin-bottom:16px;color:var(--dark)}
 
-.field{text-align:left;margin-bottom:16px}
-.field label{display:block;font-size:12px;color:var(--t2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
-.field input{width:100%;padding:10px 14px;background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);color:var(--t1);font-size:15px;outline:none;transition:border .15s}
-.field input:focus{border-color:var(--ac)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.field input{width:100%;padding:9px 12px;border:1px solid var(--bdr2);border-radius:5px;font-size:13px;color:var(--t1);background:white;outline:none;transition:border .15s;font-family:inherit}
+.field input:focus{border-color:var(--ac);box-shadow:0 0 0 2px var(--acd)}
 .field input::placeholder{color:var(--t3)}
 
-.btn{padding:10px 24px;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
-.btn-lg{width:100%;justify-content:center;padding:13px;font-size:15px}
-.btn-ac{background:var(--ac);color:#fff}.btn-ac:hover{background:var(--ac2)}
-.btn-grn{background:var(--grn);color:#000}
-.btn-out{background:none;border:1px solid var(--bdr);color:var(--t1)}.btn-out:hover{border-color:var(--t2)}
-.btn-sm{padding:6px 14px;font-size:13px}
-.btn-red{background:var(--red);color:#fff}
+.btn{padding:10px 20px;border:none;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px;font-family:inherit;letter-spacing:.3px}
+.btn-lg{width:100%;justify-content:center;padding:11px;font-size:14px}
+.btn-ac{background:var(--ac);color:white}.btn-ac:hover{background:var(--ac2)}
+.btn-grn{background:var(--grn);color:white}
+.btn-out{background:white;border:1px solid var(--bdr);color:var(--t1)}.btn-out:hover{border-color:var(--t2)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-red{background:var(--red);color:white}
 
 .err-msg{color:var(--red);font-size:13px;margin-top:8px;min-height:20px}
 
-/* OTP step */
-.otp-step{display:none}
-.otp-sent-msg{background:var(--blud);border:1px solid var(--blu);border-radius:var(--r);padding:14px;margin-bottom:20px;font-size:14px;color:var(--blu);text-align:left}
-.otp-code-display{font-family:'Courier New',monospace;font-size:32px;letter-spacing:10px;color:var(--ac);background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin:12px 0 20px;text-align:center}
+.security-badge{display:flex;align-items:center;gap:6px;background:#f0fdf4;border:1px solid var(--grnb);border-radius:4px;padding:6px 10px;font-size:11px;color:#15803d}
+.divider{display:flex;align-items:center;gap:8px;margin:12px 0}
+.divider-line{flex:1;height:1px;background:var(--bdr)}
+.divider span{font-size:11px;color:var(--t3);letter-spacing:.5px}
+.login-hint{font-size:11px;color:var(--t2);text-align:center;margin-top:12px}
 
-/* ââ APP SHELL ââââââââââââââââââââââââââââââââââââ */
+/* ── OTP ───────────────────────────────── */
+.otp-step{display:none}
+.otp-info{background:var(--blud);border:1px solid var(--blub);border-radius:var(--r);padding:12px 16px;font-size:12px;color:var(--ac);text-align:center;margin-bottom:16px}
+.otp-boxes{display:flex;gap:10px;justify-content:center;margin:16px 0}
+.otp-box{width:44px;height:52px;border:2px solid var(--bdr2);border-radius:var(--r);text-align:center;font-size:20px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--dark);background:white;outline:none;padding:0}
+.otp-box:focus,.otp-box.filled{border-color:var(--ac);background:var(--acd);color:var(--ac)}
+.otp-timer{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--org);background:var(--orgd);border:1px solid var(--orgb);padding:4px 10px;border-radius:4px;text-align:center;margin:8px 0}
+.otp-code-display{font-family:'IBM Plex Mono',monospace;font-size:28px;letter-spacing:8px;color:var(--ac);background:var(--acd);border:1px solid var(--blub);border-radius:var(--r);padding:12px;margin:8px 0 16px;text-align:center}
+
+/* ── APP SHELL ─────────────────────────── */
 .shell{display:none;height:100vh;flex-direction:column}
-header{background:var(--s1);border-bottom:1px solid var(--bdr);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.logo{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700}
-.logo span{color:var(--t2);font-weight:400;font-size:13px;margin-left:4px}
-.user-bar{display:flex;align-items:center;gap:14px;font-size:14px}
-.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.badge-admin{background:var(--acd);color:var(--ac)}
-.badge-editor{background:var(--grnd);color:var(--grn)}
-.badge-viewer{background:var(--orgd);color:var(--org)}
+header{background:var(--dark);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.logo{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;color:#60a5fa}
+.logo span{color:var(--t3);font-weight:400;font-size:12px;margin-left:4px}
+.user-bar{display:flex;align-items:center;gap:12px;font-size:13px;color:#e2e8f0}
+.badge{padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.badge-admin{background:rgba(96,165,250,.15);color:#60a5fa}
+.badge-editor{background:rgba(74,222,128,.15);color:#4ade80}
+.badge-viewer{background:rgba(251,191,36,.15);color:#fbbf24}
 
 .app-body{display:flex;flex:1;overflow:hidden}
 
-/* sidebar */
-.side{width:210px;background:var(--s1);border-right:1px solid var(--bdr);padding:12px 0;flex-shrink:0;overflow-y:auto}
-.side .lbl{padding:18px 18px 5px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--t3)}
-.side button{display:flex;align-items:center;gap:9px;width:100%;padding:9px 18px;background:none;border:none;color:var(--t2);font-size:13px;cursor:pointer;text-align:left;transition:all .12s;border-left:2px solid transparent}
-.side button:hover{background:var(--s2);color:var(--t1)}
-.side button.on{background:var(--s2);color:var(--ac);border-left-color:var(--ac)}
+/* ── SIDEBAR ───────────────────────────── */
+.side{width:200px;background:var(--dark);border-right:1px solid rgba(255,255,255,.06);padding:12px 0;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column}
+.side .lbl{padding:16px 16px 4px;font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#4b6080}
+.side button{display:flex;align-items:center;gap:8px;width:100%;padding:8px 16px;background:none;border:none;color:#94a3b8;font-size:12px;cursor:pointer;text-align:left;transition:all .12s;border-right:2px solid transparent;font-family:inherit}
+.side button:hover{background:rgba(255,255,255,.04);color:#e2e8f0}
+.side button.on{background:rgba(59,130,246,.15);color:#60a5fa;border-right-color:#3b82f6}
+.notif-count{background:#dc2626;color:white;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;margin-left:auto}
+.side-bottom{margin-top:auto;border-top:1px solid rgba(255,255,255,.06);padding-top:8px}
+.side-meta{padding:4px 16px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#4b6080}
+.side-meta.name{color:#64748b;font-family:'IBM Plex Sans',sans-serif;font-size:12px}
 
-.content{flex:1;overflow-y:auto;padding:28px 32px}
+.content{flex:1;overflow-y:auto;padding:24px 28px;background:var(--s2)}
 
-/* ââ PANELS âââââââââââââââââââââââââââââââââââââââ */
+/* ── PANELS ────────────────────────────── */
 .pnl{display:none}.pnl.on{display:block}
-.pnl h2{font-size:21px;margin-bottom:4px}.pnl .sub{color:var(--t2);font-size:13px;margin-bottom:22px}
+.pnl h2{font-size:18px;font-weight:700;margin-bottom:4px;color:var(--dark)}
+.pnl .sub{color:var(--t2);font-size:12px;margin-bottom:18px}
 
-.card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:14px}
-.card h3{font-size:14px;margin-bottom:12px;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
+.card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r2);padding:18px;margin-bottom:14px}
+.card h3{font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:12px;color:var(--t2);text-transform:uppercase;letter-spacing:1px}
 
-.stats{display:flex;gap:14px;margin-bottom:22px}
-.stat{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 24px;flex:1;text-align:center}
-.stat .n{font-size:30px;font-weight:700}.stat .l{font-size:11px;color:var(--t2);text-transform:uppercase;margin-top:2px}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.stat{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r2);padding:14px 18px}
+.stat .n{font-size:24px;font-weight:700;color:var(--dark);font-family:'IBM Plex Mono',monospace}
+.stat .l{font-size:10px;color:var(--t2);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
 
 /* tables */
 table{width:100%;border-collapse:collapse}
-th{text-align:left;font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;padding:7px 10px;border-bottom:1px solid var(--bdr)}
-td{padding:9px 10px;border-bottom:1px solid var(--bdr);font-size:13px}
+th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:1px;padding:8px 10px;background:var(--gray);border-bottom:1px solid var(--bdr)}
+td{padding:8px 10px;border-bottom:1px solid rgba(209,217,230,.5);font-size:12px;vertical-align:middle}
 tr:hover td{background:var(--s2)}
 
-/* file upload */
-.drop-zone{border:2px dashed var(--bdr2);border-radius:var(--r);padding:40px;text-align:center;color:var(--t2);transition:all .2s;cursor:pointer;margin-bottom:16px}
-.drop-zone:hover,.drop-zone.over{border-color:var(--ac);background:var(--acd);color:var(--t1)}
-.drop-zone .icon{font-size:36px;margin-bottom:8px;display:block}
+/* status badges */
+.status-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.status-free{background:var(--grnd);color:#15803d}
+.status-reserved{background:var(--orgd);color:var(--org)}
+.status-locked{background:var(--redd);color:var(--red)}
+
+/* role badges (light bg) */
+.role-badge{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:1px 6px;border-radius:2px}
+.role-admin{background:var(--acd);color:var(--ac)}
+.role-editor{background:var(--grnd);color:var(--grn)}
+.role-viewer{background:var(--orgd);color:var(--org)}
+
+/* action buttons */
+.action-btn{font-size:10px;padding:3px 8px;border-radius:3px;border:1px solid var(--bdr);background:white;cursor:pointer;color:var(--t2);margin-right:4px;font-family:inherit}
+.action-btn.primary{background:var(--acd);border-color:var(--blub);color:var(--ac)}
+.action-btn.danger{background:var(--redd);border-color:var(--redb);color:var(--red)}
+
+/* event badges */
+.event-badge{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px}
+.event-login{background:var(--acd);color:var(--ac)}
+.event-upload{background:var(--grnd);color:#065f46}
+.event-reserve{background:var(--orgd);color:#92400e}
+.event-download{background:#ede9fe;color:#4c1d95}
+.event-fail{background:var(--redd);color:#991b1b}
+
+/* filter pills */
+.filter-pills{display:flex;gap:6px;flex-wrap:wrap}
+.filter-pill{padding:5px 12px;border:1px solid var(--bdr);border-radius:20px;font-size:11px;background:white;cursor:pointer;color:var(--t2);font-family:inherit}
+.filter-pill.active{background:var(--ac);color:white;border-color:var(--ac)}
+
+/* drop zone */
+.drop-zone{border:2px dashed var(--bdr2);border-radius:var(--r2);padding:36px;text-align:center;background:var(--s2);transition:all .2s;cursor:pointer;margin-bottom:14px}
+.drop-zone:hover,.drop-zone.over{border-color:var(--ac);background:var(--acd)}
+.drop-zone .icon{font-size:32px;margin-bottom:8px;display:block}
 .drop-zone input{display:none}
-.file-info{background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;font-size:14px}
-.file-info .name{font-weight:600}.file-info .size{color:var(--t2);font-size:13px}
+.file-info{background:white;border:1px solid var(--bdr);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font-size:13px}
+.file-info .name{font-weight:600;color:var(--dark)}.file-info .size{color:var(--t2);font-size:12px}
 
 /* result boxes */
-.res-ok{background:var(--grnd);border:1px solid var(--grn);border-radius:var(--r);padding:14px;color:var(--grn);font-size:14px;margin-top:12px}
-.res-err{background:var(--redd);border:1px solid var(--red);border-radius:var(--r);padding:14px;color:var(--red);font-size:14px;margin-top:12px}
-.res-info{background:var(--blud);border:1px solid var(--blu);border-radius:var(--r);padding:14px;color:var(--blu);font-size:14px;margin-top:12px}
-.res-warn{background:var(--orgd);border:1px solid var(--org);border-radius:var(--r);padding:14px;color:var(--org);font-size:14px;margin-top:12px}
+.res-ok{background:var(--grnd);border:1px solid var(--grnb);border-radius:var(--r);padding:12px;color:#15803d;font-size:13px;margin-top:10px}
+.res-err{background:var(--redd);border:1px solid var(--redb);border-radius:var(--r);padding:12px;color:#991b1b;font-size:13px;margin-top:10px}
+.res-info{background:var(--blud);border:1px solid var(--blub);border-radius:var(--r);padding:12px;color:var(--ac);font-size:13px;margin-top:10px}
+.res-warn{background:var(--orgd);border:1px solid var(--orgb);border-radius:var(--r);padding:12px;color:#92400e;font-size:13px;margin-top:10px}
+
+/* notification items */
+.nitem{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-bottom:1px solid var(--bdr);background:white}
+.nitem.unread{background:var(--blud);border-left:3px solid var(--ac)}
+.nitem.unread-warn{background:var(--orgd);border-left:3px solid var(--org)}
+.nitem-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.nicon-green{background:var(--grnd)}.nicon-blue{background:var(--acd)}.nicon-warn{background:var(--orgd)}.nicon-red{background:var(--redd)}
+.nitem-body{flex:1}
+.nitem-title{font-size:12px;font-weight:600;color:var(--dark);margin-bottom:2px}
+.nitem-msg{font-size:11px;color:var(--t2);line-height:1.5}
+.nitem-meta{display:flex;gap:8px;align-items:center;margin-top:4px}
+.nitem-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)}
+.evb{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700}
+.ev-uploaded{background:var(--grnd);color:#065f46}
+.ev-downloaded{background:#ede9fe;color:#4c1d95}
+.ev-reserved{background:var(--orgd);color:#92400e}
+.ev-released{background:var(--acd);color:var(--ac)}
 
 /* patterns */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-.pcard{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:20px}
-.pcard h3{color:var(--ac);font-size:15px;margin-bottom:2px}
-.pcard .cls{color:var(--t3);font-size:12px;font-family:monospace;margin-bottom:10px}
-.pcard p{font-size:13px;color:var(--t2);line-height:1.6}
-.pcard .fl{margin-top:10px;font-size:11px;color:var(--t3);font-family:monospace}
+.pcard{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r2);padding:18px}
+.pcard h3{color:var(--ac);font-size:14px;margin-bottom:2px}
+.pcard .cls{color:var(--t3);font-size:12px;font-family:'IBM Plex Mono',monospace;margin-bottom:8px}
+.pcard p{font-size:12px;color:var(--t2);line-height:1.6}
+.pcard .fl{margin-top:8px;font-size:11px;color:var(--t3);font-family:'IBM Plex Mono',monospace}
 
-/* notifications */
-.nitem{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--bdr);font-size:13px}
-.evb{padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase;min-width:76px;text-align:center}
-.ev-uploaded{background:var(--grnd);color:var(--grn)}
-.ev-downloaded{background:var(--blud);color:var(--blu)}
-.ev-reserved{background:var(--orgd);color:var(--org)}
-.ev-released{background:var(--acd);color:var(--ac)}
+.empty{text-align:center;padding:28px;color:var(--t3);font-size:13px}
 
-.empty{text-align:center;padding:32px;color:var(--t3);font-size:14px}
+/* search bar */
+.search-bar{display:flex;gap:8px;margin-bottom:14px}
+.search-bar input{flex:1;padding:8px 12px;border:1px solid var(--bdr2);border-radius:5px;font-size:12px;color:var(--t1);font-family:inherit;outline:none;background:white}
+.search-bar input:focus{border-color:var(--ac);box-shadow:0 0 0 2px var(--acd)}
 
 /* toast */
 .toasts{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px}
-.toast{padding:11px 18px;border-radius:var(--r);font-size:13px;max-width:380px;animation:tin .25s ease}
-.t-ok{background:var(--grnd);border:1px solid var(--grn);color:var(--grn)}
-.t-err{background:var(--redd);border:1px solid var(--red);color:var(--red)}
-.t-info{background:var(--blud);border:1px solid var(--blu);color:var(--blu)}
+.toast{padding:10px 16px;border-radius:var(--r);font-size:12px;max-width:360px;animation:tin .25s ease}
+.t-ok{background:var(--grnd);border:1px solid var(--grnb);color:#15803d}
+.t-err{background:var(--redd);border:1px solid var(--redb);color:#991b1b}
+.t-info{background:var(--blud);border:1px solid var(--blub);color:var(--ac)}
 @keyframes tin{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
 
-.row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
-code{background:var(--s2);padding:1px 6px;border-radius:4px;font-size:13px}
+code{background:var(--s3);padding:1px 6px;border-radius:4px;font-size:12px;font-family:'IBM Plex Mono',monospace}
 
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+/* demo table */
+.demo-table td{border:none;padding:3px 8px;font-family:'IBM Plex Mono',monospace;font-size:12px}
+
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
 </style>
 </head>
 <body>
 
-<!-- âââââââ LOGIN âââââââ -->
+<!-- ═══════ LOGIN ═══════ -->
 <div class="login-wrap" id="loginWrap">
 <div class="login-box">
-  <div style="color:var(--ac);margin-bottom:18px">
-    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-  </div>
-  <h1>SDMS</h1>
-  <p class="sub">Secure Document Management System<small>5CM505 Software Engineering â Phase 3 Demo</small></p>
+  <div class="login-logo">&#128274; SDMS</div>
+  <div class="login-tagline">Secure Document Management System</div>
 
-  <!-- Step 1: password -->
+  <!-- Step 1: credentials -->
   <div id="loginStep1">
-    <div class="field"><label>Username</label><input id="inUser" placeholder="Enter username" autocomplete="off"></div>
-    <div class="field"><label>Password</label><input id="inPass" type="password" placeholder="Enter password"></div>
-    <button class="btn btn-ac btn-lg" onclick="doStep1()">Sign In</button>
-    <div class="err-msg" id="loginErr"></div>
-    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--bdr);text-align:left">
-      <p style="font-size:12px;color:var(--t3);margin-bottom:8px">DEMO ACCOUNTS</p>
-      <table style="font-size:13px">
-        <tr><td style="color:var(--t2);border:none;padding:3px 12px 3px 0">nefeli</td><td style="border:none;padding:3px 12px 3px 0">admin2026</td><td style="border:none;padding:3px 0"><span class="badge badge-admin">Admin</span></td></tr>
-        <tr><td style="color:var(--t2);border:none;padding:3px 12px 3px 0">konstantinos</td><td style="border:none;padding:3px 12px 3px 0">editor2026</td><td style="border:none;padding:3px 0"><span class="badge badge-editor">Editor</span></td></tr>
-        <tr><td style="color:var(--t2);border:none;padding:3px 12px 3px 0">sanjana</td><td style="border:none;padding:3px 12px 3px 0">viewer2026</td><td style="border:none;padding:3px 0"><span class="badge badge-viewer">Viewer</span></td></tr>
+    <div class="login-card">
+      <div class="login-card-title">Sign In to Your Account</div>
+      <div class="field"><label>Username</label><input id="inUser" placeholder="Enter username" autocomplete="off"></div>
+      <div class="field"><label>Password</label><input id="inPass" type="password" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"></div>
+      <button class="btn btn-ac btn-lg" onclick="doStep1()">Sign In &#8594;</button>
+      <div class="err-msg" id="loginErr"></div>
+    </div>
+    <div class="divider"><div class="divider-line"></div><span>RATE LIMITED</span><div class="divider-line"></div></div>
+    <div class="security-badge">&#128737; 5 failed attempts triggers 15-min lockout</div>
+    <div style="margin-top:16px;background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r2);padding:14px;text-align:left">
+      <div style="font-size:10px;color:var(--t3);letter-spacing:1px;margin-bottom:6px;font-family:'IBM Plex Mono',monospace">DEMO ACCOUNTS</div>
+      <table class="demo-table">
+        <tr><td>nefeli</td><td>admin2026</td><td><span class="badge role-admin" style="font-size:10px">Admin</span></td></tr>
+        <tr><td>konstantinos</td><td>editor2026</td><td><span class="badge role-editor" style="font-size:10px">Editor</span></td></tr>
+        <tr><td>sanjana</td><td>viewer2026</td><td><span class="badge role-viewer" style="font-size:10px">Viewer</span></td></tr>
       </table>
     </div>
+    <div class="login-hint">New user? Contact your system administrator.</div>
   </div>
 
   <!-- Step 2: OTP -->
   <div id="loginStep2" class="otp-step">
-    <div class="otp-sent-msg" id="otpMsg"></div>
-    <p style="font-size:12px;color:var(--t3);margin-bottom:4px">FOR DEMO PURPOSES, THE CODE IS SHOWN BELOW:</p>
-    <div class="otp-code-display" id="otpHint"></div>
-    <div class="field"><label>Enter 6-Digit Code</label><input id="inOtp" placeholder="000000" maxlength="6" autocomplete="off"></div>
-    <button class="btn btn-grn btn-lg" onclick="doStep2()">Verify &amp; Login</button>
-    <div class="err-msg" id="otpErr"></div>
-    <button class="btn btn-out btn-sm" style="margin-top:12px" onclick="backToStep1()">Back</button>
+    <div class="login-card" style="text-align:center">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--ac);margin-bottom:12px">&#128273; Two-Factor Authentication</div>
+      <div class="otp-info" id="otpMsg"></div>
+      <div style="font-size:10px;color:var(--t3);letter-spacing:.5px;margin-bottom:4px">DEMO: CODE SHOWN BELOW</div>
+      <div class="otp-code-display" id="otpHint"></div>
+      <div class="otp-boxes">
+        <input class="otp-box" id="otp-1" maxlength="1" inputmode="numeric" autocomplete="off">
+        <input class="otp-box" id="otp-2" maxlength="1" inputmode="numeric" autocomplete="off">
+        <input class="otp-box" id="otp-3" maxlength="1" inputmode="numeric" autocomplete="off">
+        <input class="otp-box" id="otp-4" maxlength="1" inputmode="numeric" autocomplete="off">
+        <input class="otp-box" id="otp-5" maxlength="1" inputmode="numeric" autocomplete="off">
+        <input class="otp-box" id="otp-6" maxlength="1" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="otp-timer" id="otpTimer">&#9201; Code expires in 05:00</div>
+      <button class="btn btn-ac btn-lg" onclick="doStep2()" style="margin-top:12px">Verify Code</button>
+      <div class="err-msg" id="otpErr"></div>
+      <button class="btn btn-out btn-sm" style="margin-top:10px" onclick="backToStep1()">&#8592; Back to Sign In</button>
+    </div>
+    <div class="security-badge" style="margin-top:12px">&#128737; MFA enforced for all user roles</div>
   </div>
 </div>
 </div>
 
-<!-- âââââââ APP âââââââ -->
+<!-- ═══════ APP SHELL ═══════ -->
 <div class="shell" id="shell">
 <header>
-  <div class="logo">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--ac)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-    SDMS <span>Secure Document Management</span>
-  </div>
+  <div class="logo">&#128274; SDMS <span>Secure Document Management</span></div>
   <div class="user-bar">
     <span id="hUser"></span>
     <span id="hBadge" class="badge"></span>
-    <button class="btn btn-out btn-sm" onclick="doLogout()">Sign Out</button>
+    <button class="btn btn-out btn-sm" style="color:#f87171;border-color:rgba(255,255,255,.12)" onclick="doLogout()">&#9211; Sign Out</button>
   </div>
 </header>
 <div class="app-body">
 <nav class="side">
-  <div class="lbl">Overview</div>
-  <button onclick="go('dash')" id="n-dash" class="on">Dashboard</button>
-  <div class="lbl">Documents</div>
-  <button onclick="go('upload')" id="n-upload">Upload File</button>
-  <button onclick="go('browse')" id="n-browse">Browse &amp; Search</button>
+  <div class="lbl">Navigation</div>
+  <button onclick="go('dash')" id="n-dash" class="on">&#128196; Documents</button>
+  <button onclick="go('upload')" id="n-upload">&#11014;&#65039; Upload</button>
+  <button onclick="go('browse')" id="n-browse">&#128269; Browse &amp; Search</button>
+  <button onclick="go('notif')" id="n-notif">&#128276; Notifications <span class="notif-count" id="notifBadge" style="display:none">0</span></button>
   <div class="lbl">Security</div>
-  <button onclick="go('audit')" id="n-audit">Audit Log</button>
-  <button onclick="go('notif')" id="n-notif">Notifications</button>
-  <div class="lbl">Architecture</div>
-  <button onclick="go('patterns')" id="n-patterns">Design Patterns</button>
+  <button onclick="go('audit')" id="n-audit">&#128202; Audit Logs</button>
   <div class="lbl" id="lbl-attacks">Security Demos</div>
-  <button onclick="go('attacks')" id="n-attacks">Attack Simulations</button>
+  <button onclick="go('attacks')" id="n-attacks">&#128737; Attack Simulations</button>
+  <div class="lbl">Architecture</div>
+  <button onclick="go('patterns')" id="n-patterns">&#129513; Design Patterns</button>
+  <div class="side-bottom">
+    <div class="side-meta">SESSION</div>
+    <div class="side-meta name" id="sideUser">&#8212;</div>
+    <div class="side-meta" id="sideRole">Role: &#8212;</div>
+  </div>
 </nav>
 <main class="content">
 
 <!-- DASHBOARD -->
 <div id="p-dash" class="pnl on">
-  <h2>Dashboard</h2><p class="sub">System overview</p>
+  <h2>Dashboard</h2><p class="sub">System overview and recent activity</p>
   <div class="stats">
-    <div class="stat"><div class="n" id="sDocs">0</div><div class="l">Documents</div></div>
-    <div class="stat"><div class="n" id="sAudit">0</div><div class="l">Audit Entries</div></div>
+    <div class="stat"><div class="n" id="sDocs">0</div><div class="l">Total Documents</div></div>
+    <div class="stat"><div class="n" id="sReserved">0</div><div class="l">Reserved Now</div></div>
     <div class="stat"><div class="n" id="sNotif">0</div><div class="l">Notifications</div></div>
-    <div class="stat"><div class="n" id="sUsers">3</div><div class="l">Users</div></div>
   </div>
-  <div class="card"><h3>Recent Activity</h3><table><thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th></tr></thead><tbody id="dashAudit"></tbody></table></div>
+  <div class="card"><h3>Recent Activity</h3><table><thead><tr><th>Timestamp</th><th>User</th><th>Event Type</th><th>Details</th></tr></thead><tbody id="dashAudit"></tbody></table></div>
 </div>
 
 <!-- UPLOAD -->
 <div id="p-upload" class="pnl">
-  <h2>Upload File</h2><p class="sub">Files are encrypted with AES-256-GCM via the Strategy pattern before storage</p>
+  <h2>Upload Document</h2><p class="sub">Files are encrypted with AES-256-GCM via the Strategy pattern before storage</p>
   <div class="card">
     <h3>Select File</h3>
     <div class="drop-zone" id="dropZone">
-      <span class="icon">&#128196;</span>
-      <strong>Drag &amp; drop a file here</strong><br><span style="font-size:13px">or click to browse (max 50 MB)</span>
+      <span class="icon">&#128228;</span>
+      <div style="font-weight:600;color:var(--ac)">Drop files here or click to browse</div>
+      <div style="font-size:11px;color:var(--t3);margin-top:4px">Supported: PDF, DOCX, TXT, XLSX &middot; Max 50 MB</div>
+      <div style="font-size:10px;color:var(--red);margin-top:4px">&#9888; Files are sanitised and encrypted before storage</div>
       <input type="file" id="fileInput">
     </div>
     <div id="fileInfo" style="display:none" class="file-info">
       <div><span class="name" id="fileName"></span><br><span class="size" id="fileSize"></span></div>
       <button class="btn btn-out btn-sm" onclick="clearFile()">Remove</button>
     </div>
-    <button class="btn btn-ac" onclick="doUpload()" id="uploadBtn" disabled>Upload &amp; Encrypt</button>
+    <div id="uploadProgress" style="display:none;margin-bottom:14px;background:white;border:1px solid var(--bdr);border-radius:var(--r);padding:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:12px">
+        <span style="font-weight:600" id="uploadProgressName">&#8212;</span>
+        <span style="color:var(--ac);font-family:'IBM Plex Mono',monospace" id="uploadProgressPct">0%</span>
+      </div>
+      <div style="height:6px;background:var(--gray);border-radius:3px;overflow:hidden"><div style="height:100%;background:var(--ac);border-radius:3px;transition:width .3s;width:0" id="uploadProgressBar"></div></div>
+      <div style="font-size:10px;color:var(--t2);margin-top:4px">Encrypting &middot; Sanitising via Security Proxy...</div>
+    </div>
+    <div class="security-badge" style="margin-bottom:14px">&#128737; File will be encrypted at rest and scanned for malicious content before storage</div>
+    <button class="btn btn-ac" onclick="doUpload()" id="uploadBtn" disabled>Complete Upload &#8594;</button>
     <div id="uploadRes"></div>
   </div>
 </div>
 
 <!-- BROWSE -->
 <div id="p-browse" class="pnl">
-  <h2>Browse &amp; Search</h2><p class="sub">Download (decrypts), reserve (locks for editing), release. Observer fires on each.</p>
-  <div class="card">
-    <div class="row" style="margin-bottom:0">
-      <div class="field" style="margin:0;flex:1"><label>Search by name</label><input id="searchQ" placeholder="e.g. report"></div>
-      <button class="btn btn-ac btn-sm" onclick="doSearch()" style="margin-bottom:1px">Search</button>
-      <button class="btn btn-out btn-sm" onclick="loadDocs()" style="margin-bottom:1px">Show All</button>
-    </div>
+  <h2>All Documents</h2><p class="sub">Download (decrypts), reserve (locks for editing), release. Observer fires on each action.</p>
+  <div class="search-bar">
+    <input id="searchQ" placeholder="&#128269; Search documents by title...">
+    <button class="btn btn-ac btn-sm" onclick="doSearch()">Search</button>
+    <button class="btn btn-out btn-sm" onclick="loadDocs()">Show All</button>
   </div>
-  <div class="card"><table><thead><tr><th>ID</th><th>Name</th><th>Owner</th><th>Ver</th><th>Size</th><th>Lock</th><th style="width:220px">Actions</th></tr></thead><tbody id="docTb"></tbody></table><div class="empty" id="docEmpty">No documents yet. Upload a file first.</div></div>
+  <div class="card" style="padding:0;overflow:hidden"><table><thead><tr><th>Document Title</th><th>Owner</th><th>Version</th><th>Size</th><th>Status</th><th style="width:220px">Actions</th></tr></thead><tbody id="docTb"></tbody></table><div class="empty" id="docEmpty">No documents yet. Upload a file first.</div></div>
   <div id="dlRes"></div>
 </div>
 
 <!-- AUDIT -->
 <div id="p-audit" class="pnl">
-  <h2>Audit Log</h2><p class="sub">AuditLogger singleton â thread-safe, append-only trail shared across all modules</p>
-  <div class="row" style="margin-bottom:14px"><button class="btn btn-ac btn-sm" onclick="loadAudit()">Refresh</button><button class="btn btn-out btn-sm" id="genReportBtn" onclick="genReport()">Generate Report</button></div>
-  <div class="card"><table><thead><tr><th>#</th><th>Time</th><th>User</th><th>Action</th><th>Doc</th><th>Details</th></tr></thead><tbody id="auditTb"></tbody></table></div>
+  <h2>Audit Log</h2><p class="sub">AuditLogger singleton &mdash; thread-safe, append-only trail &middot; Retained 3 months</p>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+    <div class="filter-pills" id="auditFilters">
+      <button class="filter-pill active" onclick="filterAudit('all',this)">All Events</button>
+      <button class="filter-pill" onclick="filterAudit('login',this)">Login / Logout</button>
+      <button class="filter-pill" onclick="filterAudit('upload',this)">Uploads</button>
+      <button class="filter-pill" onclick="filterAudit('download',this)">Downloads</button>
+      <button class="filter-pill" onclick="filterAudit('reserve',this)">Reservations</button>
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="btn btn-ac btn-sm" onclick="loadAudit()">Refresh</button>
+      <button class="btn btn-out btn-sm" id="genReportBtn" onclick="genReport()">&#11015; Export Report</button>
+    </div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden"><table><thead><tr><th>Timestamp</th><th>User</th><th>Role</th><th>Event Type</th><th>Entity</th><th>Details</th></tr></thead><tbody id="auditTb"></tbody></table></div>
   <div id="reportRes"></div>
 </div>
 
 <!-- NOTIFICATIONS -->
 <div id="p-notif" class="pnl">
-  <h2>Observer Notifications</h2><p class="sub">NotificationService receives DocumentEvent objects from RealDocumentService (Subject)</p>
-  <button class="btn btn-ac btn-sm" onclick="loadNotifs()" style="margin-bottom:14px">Refresh</button>
-  <div class="card" id="notifList"><div class="empty">No notifications. Upload or reserve a document to trigger observer events.</div></div>
+  <h2>&#128276; Notifications</h2><p class="sub">NotificationService receives DocumentEvent objects from RealDocumentService (Subject)</p>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+    <div class="filter-pills" id="notifFilters">
+      <button class="filter-pill active" onclick="filterNotifs('all',this)">All</button>
+      <button class="filter-pill" onclick="filterNotifs('uploaded',this)">Uploads</button>
+      <button class="filter-pill" onclick="filterNotifs('reserved',this)">Reservations</button>
+      <button class="filter-pill" onclick="filterNotifs('downloaded',this)">Downloads</button>
+      <button class="filter-pill" onclick="filterNotifs('released',this)">Releases</button>
+    </div>
+    <button class="btn btn-ac btn-sm" onclick="loadNotifs()">Refresh</button>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden" id="notifList"><div class="empty">No notifications. Upload or reserve a document to trigger observer events.</div></div>
 </div>
 
 <!-- PATTERNS -->
@@ -272,34 +383,10 @@ code{background:var(--s2);padding:1px 6px;border-radius:4px;font-size:13px}
 <!-- ATTACK DEMOS -->
 <div id="p-attacks" class="pnl">
   <h2>Security Demonstrations</h2><p class="sub">Test the Proxy pattern's defences against common attack vectors</p>
-
-  <div class="card">
-    <h3>1. Path Traversal Attack</h3>
-    <p style="color:var(--t2);font-size:13px;margin-bottom:12px">Attempt to upload a file named <code>../etc/passwd</code> to escape the document directory.</p>
-    <button class="btn btn-red btn-sm" onclick="atkPath()">Run Attack</button>
-    <div id="atkPathRes"></div>
-  </div>
-
-  <div class="card">
-    <h3>2. SQL Injection Attack</h3>
-    <p style="color:var(--t2);font-size:13px;margin-bottom:12px">Send a search query containing <code>'; DROP TABLE users; --</code> to attempt database manipulation.</p>
-    <button class="btn btn-red btn-sm" onclick="atkSql()">Run Attack</button>
-    <div id="atkSqlRes"></div>
-  </div>
-
-  <div class="card">
-    <h3>3. Privilege Escalation</h3>
-    <p style="color:var(--t2);font-size:13px;margin-bottom:12px">Attempt to upload a document as Sanjana (Viewer role, no write permission).</p>
-    <button class="btn btn-red btn-sm" onclick="atkPerm()">Run Attack</button>
-    <div id="atkPermRes"></div>
-  </div>
-
-  <div class="card">
-    <h3>4. Rate Limit Exhaustion</h3>
-    <p style="color:var(--t2);font-size:13px;margin-bottom:12px">Send 11 rapid requests to exceed the 10-request sliding window limit.</p>
-    <button class="btn btn-red btn-sm" onclick="atkRate()">Run Attack</button>
-    <div id="atkRateRes"></div>
-  </div>
+  <div class="card"><h3>1. Path Traversal Attack</h3><p style="color:var(--t2);font-size:12px;margin-bottom:10px">Attempt to upload a file named <code>../etc/passwd</code> to escape the document directory.</p><button class="btn btn-red btn-sm" onclick="atkPath()">Run Attack</button><div id="atkPathRes"></div></div>
+  <div class="card"><h3>2. SQL Injection Attack</h3><p style="color:var(--t2);font-size:12px;margin-bottom:10px">Send a search query containing <code>'; DROP TABLE users; --</code> to attempt database manipulation.</p><button class="btn btn-red btn-sm" onclick="atkSql()">Run Attack</button><div id="atkSqlRes"></div></div>
+  <div class="card"><h3>3. Privilege Escalation</h3><p style="color:var(--t2);font-size:12px;margin-bottom:10px">Attempt to upload a document as Sanjana (Viewer role, no write permission).</p><button class="btn btn-red btn-sm" onclick="atkPerm()">Run Attack</button><div id="atkPermRes"></div></div>
+  <div class="card"><h3>4. Rate Limit Exhaustion</h3><p style="color:var(--t2);font-size:12px;margin-bottom:10px">Send 11 rapid requests to exceed the 10-request sliding window limit.</p><button class="btn btn-red btn-sm" onclick="atkRate()">Run Attack</button><div id="atkRateRes"></div></div>
 </div>
 
 </main>
@@ -309,17 +396,19 @@ code{background:var(--s2);padding:1px 6px;border-radius:4px;font-size:13px}
 <div class="toasts" id="toasts"></div>
 
 <script>
-const U = {1:"Nefeli",2:"Konstantinos",3:"Sanjana"};
-let me = null;
-let pendingUid = null;
-let selectedFile = null;
+const U={1:"Nefeli",2:"Konstantinos",3:"Sanjana"};
+const R={1:"Admin",2:"Editor",3:"Viewer"};
+let me=null;
+let pendingUid=null;
+let selectedFile=null;
+let otpTimerInterval=null;
 
-/* ââ API âââââââââââââââââââââââââââââââ */
+/* ── API ─────────────────────────────── */
 async function api(p,m="GET",b=null){
-  const o = {method:m,headers:{"Content-Type":"application/json"}};
-  if(b) o.body = JSON.stringify(b);
-  const r = await fetch("/api"+p,o);
-  const d = await r.json();
+  const o={method:m,headers:{"Content-Type":"application/json"}};
+  if(b) o.body=JSON.stringify(b);
+  const r=await fetch("/api"+p,o);
+  const d=await r.json();
   if(!r.ok) d._err=true;
   return d;
 }
@@ -341,37 +430,67 @@ function go(n){
   if(n==="patterns") loadPats();
 }
 
-/* ââ AUTH âââââââââââââââââââââââââââââââ */
+/* ── OTP BOXES ───────────────────────── */
+document.querySelectorAll('.otp-box').forEach((box,i,boxes)=>{
+  box.addEventListener('input',()=>{
+    box.value=box.value.replace(/\D/g,'');
+    if(box.value && i<5) boxes[i+1].focus();
+    box.classList.toggle('filled',!!box.value);
+  });
+  box.addEventListener('keydown',e=>{
+    if(e.key==='Backspace' && !box.value && i>0){
+      boxes[i-1].focus();
+      boxes[i-1].value='';
+      boxes[i-1].classList.remove('filled');
+    }
+    if(e.key==='Enter') doStep2();
+  });
+});
+
+function startOtpTimer(){
+  let secs=300;
+  clearInterval(otpTimerInterval);
+  const el=document.getElementById("otpTimer");
+  otpTimerInterval=setInterval(()=>{
+    secs--;
+    if(secs<=0){clearInterval(otpTimerInterval);el.textContent="⏱ Code expired";return}
+    const m=Math.floor(secs/60),s=secs%60;
+    el.textContent="⏱ Code expires in "+String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
+  },1000);
+}
+
+/* ── AUTH ─────────────────────────────── */
 async function doStep1(){
   const u=document.getElementById("inUser").value.trim();
   const p=document.getElementById("inPass").value;
   document.getElementById("loginErr").textContent="";
   if(!u||!p){document.getElementById("loginErr").textContent="Enter both fields";return}
-
   const d=await api("/auth/login","POST",{username:u,password:p});
   if(d._err){document.getElementById("loginErr").textContent=d.error;return}
-
   pendingUid=d.user_id;
   document.getElementById("otpMsg").innerHTML=d.message;
   document.getElementById("otpHint").textContent=d.otp_hint;
   document.getElementById("loginStep1").style.display="none";
   document.getElementById("loginStep2").style.display="block";
-  document.getElementById("inOtp").focus();
+  document.querySelectorAll('.otp-box').forEach(b=>{b.value='';b.classList.remove('filled')});
+  document.getElementById("otp-1").focus();
+  startOtpTimer();
 }
 
 async function doStep2(){
-  const c=document.getElementById("inOtp").value.trim();
+  const code=Array.from(document.querySelectorAll('.otp-box')).map(b=>b.value).join('');
   document.getElementById("otpErr").textContent="";
-  if(!c){document.getElementById("otpErr").textContent="Enter the 6-digit code";return}
-
-  const d=await api("/auth/verify-otp","POST",{user_id:pendingUid,code:c});
+  if(code.length<6){document.getElementById("otpErr").textContent="Enter all 6 digits";return}
+  const d=await api("/auth/verify-otp","POST",{user_id:pendingUid,code:code});
   if(d._err){document.getElementById("otpErr").textContent=d.error;return}
-
+  clearInterval(otpTimerInterval);
   me=d.user;
   document.getElementById("loginWrap").style.display="none";
   const sh=document.getElementById("shell"); sh.style.display="flex";
   document.getElementById("hUser").textContent=me.name;
   const b=document.getElementById("hBadge"); b.textContent=me.role; b.className="badge badge-"+me.role;
+  document.getElementById("sideUser").textContent=me.name;
+  document.getElementById("sideRole").textContent="Role: "+me.role.charAt(0).toUpperCase()+me.role.slice(1);
   applyRoleAccess();
   toast("Logged in as "+me.name+" ("+me.role+")","ok");
   refreshDash();
@@ -380,8 +499,9 @@ async function doStep2(){
 function backToStep1(){
   document.getElementById("loginStep2").style.display="none";
   document.getElementById("loginStep1").style.display="block";
-  document.getElementById("inOtp").value="";
+  document.querySelectorAll('.otp-box').forEach(b=>{b.value='';b.classList.remove('filled')});
   document.getElementById("otpErr").textContent="";
+  clearInterval(otpTimerInterval);
 }
 
 async function doLogout(){
@@ -395,78 +515,68 @@ async function doLogout(){
   document.getElementById("loginStep2").style.display="none";
   document.getElementById("inUser").value="";
   document.getElementById("inPass").value="";
-  document.getElementById("inOtp").value="";
   go("dash");
 }
 
-// Enter key on password field
 document.getElementById("inPass").addEventListener("keydown",e=>{if(e.key==="Enter")doStep1()});
-document.getElementById("inOtp").addEventListener("keydown",e=>{if(e.key==="Enter")doStep2()});
 
-/* ââ ROLE-BASED ACCESS âââââââââââââââââ */
+/* ── ROLE-BASED ACCESS ───────────────── */
 function applyRoleAccess(){
   if(!me) return;
-  const perms = me.permissions || [];
-  const canWrite = perms.includes("write");
-  const canAudit = perms.includes("view_audit");
-  const canManage = perms.includes("manage_users");
-
-  // Sidebar visibility
-  document.getElementById("n-upload").style.display = canWrite ? "" : "none";
-  document.getElementById("n-attacks").style.display = canWrite ? "" : "none";
-  document.getElementById("lbl-attacks").style.display = canWrite ? "" : "none";
-  document.getElementById("n-audit").style.display = canAudit ? "" : "none";
-
-  // Generate report button (audit page)
-  const reportBtn = document.getElementById("genReportBtn");
-  if(reportBtn) reportBtn.style.display = canAudit ? "" : "none";
-
-  // If current panel is hidden for this role, go back to dashboard
-  const cur = document.querySelector(".pnl.on");
+  const perms=me.permissions||[];
+  const cw=perms.includes("write");
+  const ca=perms.includes("view_audit");
+  document.getElementById("n-upload").style.display=cw?"":"none";
+  document.getElementById("n-attacks").style.display=cw?"":"none";
+  document.getElementById("lbl-attacks").style.display=cw?"":"none";
+  document.getElementById("n-audit").style.display=ca?"":"none";
+  const rb=document.getElementById("genReportBtn");
+  if(rb) rb.style.display=ca?"":"none";
+  const cur=document.querySelector(".pnl.on");
   if(cur){
-    const id = cur.id.replace("p-","");
-    if((id==="upload"||id==="attacks") && !canWrite) go("dash");
-    if(id==="audit" && !canAudit) go("dash");
+    const id=cur.id.replace("p-","");
+    if((id==="upload"||id==="attacks")&&!cw) go("dash");
+    if(id==="audit"&&!ca) go("dash");
   }
-
-  // Dashboard permissions card
-  let permCard = document.getElementById("permCard");
-  if(!permCard){
-    permCard = document.createElement("div");
-    permCard.id = "permCard";
-    permCard.className = "card";
-    const dashPnl = document.getElementById("p-dash");
-    dashPnl.appendChild(permCard);
-  }
-  permCard.innerHTML = `<h3>Your Permissions</h3>
-    <p style="color:var(--t2);font-size:13px;margin-bottom:10px">Logged in as <strong style="color:var(--t1)">${me.name}</strong> with role <span class="badge badge-${me.role}" style="margin-left:4px">${me.role}</span></p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">${perms.map(p=>`<span style="background:var(--s2);border:1px solid var(--bdr);border-radius:4px;padding:4px 10px;font-size:12px;color:var(--grn)">&#10003; ${p}</span>`).join("")}</div>
-    ${!canWrite?'<p style="color:var(--org);font-size:12px;margin-top:10px">&#9888; You cannot upload, reserve, or release documents.</p>':''}
-    ${!canAudit?'<p style="color:var(--org);font-size:12px;margin-top:6px">&#9888; Audit log access is restricted to Admin users.</p>':''}`;
+  let pc=document.getElementById("permCard");
+  if(!pc){pc=document.createElement("div");pc.id="permCard";pc.className="card";document.getElementById("p-dash").appendChild(pc)}
+  pc.innerHTML='<h3>Your Permissions</h3>'+
+    '<p style="color:var(--t2);font-size:12px;margin-bottom:10px">Logged in as <strong style="color:var(--t1)">'+me.name+'</strong> with role <span class="badge role-'+me.role+'" style="margin-left:4px;font-size:10px">'+me.role+'</span></p>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap">'+perms.map(function(p){return '<span style="background:var(--grnd);border:1px solid var(--grnb);border-radius:4px;padding:3px 10px;font-size:11px;color:#15803d">✓ '+p+'</span>'}).join("")+'</div>'+
+    (!cw?'<p style="color:var(--org);font-size:11px;margin-top:10px">⚠ You cannot upload, reserve, or release documents.</p>':'')+
+    (!ca?'<p style="color:var(--org);font-size:11px;margin-top:6px">⚠ Audit log access is restricted to Admin users.</p>':'');
 }
 
-function canWrite(){ return me && me.permissions && me.permissions.includes("write"); }
+function canWrite(){return me&&me.permissions&&me.permissions.includes("write")}
 
-/* ââ DASHBOARD âââââââââââââââââââââââââ */
+/* ── DASHBOARD ───────────────────────── */
 async function refreshDash(){
   const [docs,audit,notifs]=await Promise.all([api("/documents"),api("/audit"),api("/notifications")]);
   document.getElementById("sDocs").textContent=docs.length;
-  document.getElementById("sAudit").textContent=audit.length;
+  document.getElementById("sReserved").textContent=docs.filter(function(d){return d.locked_by}).length;
   document.getElementById("sNotif").textContent=notifs.length;
+  const nb=document.getElementById("notifBadge");
+  if(notifs.length>0){nb.style.display="";nb.textContent=notifs.length}else{nb.style.display="none"}
   const tb=document.getElementById("dashAudit");
   const recent=audit.slice(-8).reverse();
-  tb.innerHTML=recent.map(e=>`<tr><td>${new Date(e.timestamp).toLocaleTimeString()}</td><td>${U[e.user_id]||"System"}</td><td><code>${e.action_type}</code></td><td style="color:var(--t2)">${e.details||"â"}</td></tr>`).join("")||'<tr><td colspan="4" class="empty">No activity</td></tr>';
+  tb.innerHTML=recent.map(function(e){
+    var action=(e.action_type||'').toLowerCase();
+    var bc='event-login';
+    if(action.indexOf('upload')>=0) bc='event-upload';
+    else if(action.indexOf('download')>=0) bc='event-download';
+    else if(action.indexOf('reserve')>=0||action.indexOf('release')>=0) bc='event-reserve';
+    return '<tr><td style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:var(--t2)">'+new Date(e.timestamp).toLocaleString()+'</td><td>'+(U[e.user_id]||"System")+'</td><td><span class="event-badge '+bc+'">'+(e.action_type||"—")+'</span></td><td style="color:var(--t2);font-size:11px">'+(e.details||"—")+'</td></tr>'
+  }).join("")||'<tr><td colspan="4" class="empty">No activity</td></tr>';
 }
 
-/* ââ FILE UPLOAD âââââââââââââââââââââââ */
-const dz=document.getElementById("dropZone");
-const fi=document.getElementById("fileInput");
-
-dz.addEventListener("click",()=>fi.click());
-dz.addEventListener("dragover",e=>{e.preventDefault();dz.classList.add("over")});
-dz.addEventListener("dragleave",()=>dz.classList.remove("over"));
-dz.addEventListener("drop",e=>{e.preventDefault();dz.classList.remove("over");if(e.dataTransfer.files.length)pickFile(e.dataTransfer.files[0])});
-fi.addEventListener("change",()=>{if(fi.files.length)pickFile(fi.files[0])});
+/* ── FILE UPLOAD ─────────────────────── */
+var dz=document.getElementById("dropZone");
+var fi=document.getElementById("fileInput");
+dz.addEventListener("click",function(){fi.click()});
+dz.addEventListener("dragover",function(e){e.preventDefault();dz.classList.add("over")});
+dz.addEventListener("dragleave",function(){dz.classList.remove("over")});
+dz.addEventListener("drop",function(e){e.preventDefault();dz.classList.remove("over");if(e.dataTransfer.files.length)pickFile(e.dataTransfer.files[0])});
+fi.addEventListener("change",function(){if(fi.files.length)pickFile(fi.files[0])});
 
 function pickFile(f){
   selectedFile=f;
@@ -482,139 +592,192 @@ function clearFile(){
   dz.style.display="block";
   document.getElementById("uploadBtn").disabled=true;
   document.getElementById("uploadRes").innerHTML="";
+  document.getElementById("uploadProgress").style.display="none";
 }
 function formatBytes(b){if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(1)+" MB"}
 
 async function doUpload(){
   if(!selectedFile||!me)return;
-  const fd=new FormData();
+  var prog=document.getElementById("uploadProgress");
+  prog.style.display="block";
+  document.getElementById("uploadProgressName").textContent=selectedFile.name;
+  var bar=document.getElementById("uploadProgressBar");
+  var pct=document.getElementById("uploadProgressPct");
+  var w=0;
+  var iv=setInterval(function(){w=Math.min(w+Math.random()*15,90);bar.style.width=w+"%";pct.textContent=Math.round(w)+"%"},200);
+  var fd=new FormData();
   fd.append("file",selectedFile);
   fd.append("user_id",me.user_id);
-  const r=await fetch("/api/upload",{method:"POST",body:fd});
-  const d=await r.json();
-  const el=document.getElementById("uploadRes");
+  var r=await fetch("/api/upload",{method:"POST",body:fd});
+  var d=await r.json();
+  clearInterval(iv);
+  bar.style.width="100%";pct.textContent="100%";
+  var el=document.getElementById("uploadRes");
   if(!r.ok){
-    el.innerHTML=`<div class="res-err"><strong>Upload blocked</strong><br>${d.error}</div>`;
+    el.innerHTML='<div class="res-err"><strong>Upload blocked</strong><br>'+d.error+'</div>';
     toast("Blocked: "+d.error,"err");
   } else {
-    el.innerHTML=`<div class="res-ok"><strong>${selectedFile.name}</strong> uploaded and encrypted<br><span style="opacity:.8">Original: ${formatBytes(d.original_size)} â Encrypted: ${formatBytes(d.encrypted_size)} (AES-256-GCM)</span></div>`;
+    el.innerHTML='<div class="res-ok"><strong>'+selectedFile.name+'</strong> uploaded and encrypted<br><span style="opacity:.7">Original: '+formatBytes(d.original_size)+' → Encrypted: '+formatBytes(d.encrypted_size)+' (AES-256-GCM)</span></div>';
     toast("File uploaded and encrypted","ok");
     clearFile();
   }
 }
 
-/* ââ BROWSE ââââââââââââââââââââââââââââ */
+/* ── BROWSE ──────────────────────────── */
 async function loadDocs(){
-  const docs=await api("/documents");
-  const tb=document.getElementById("docTb");
-  const em=document.getElementById("docEmpty");
+  var docs=await api("/documents");
+  var tb=document.getElementById("docTb");
+  var em=document.getElementById("docEmpty");
   if(!docs.length){tb.innerHTML="";em.style.display="block";return}
   em.style.display="none";
-  const w = canWrite();
-  tb.innerHTML=docs.map(d=>`<tr>
-    <td>${d.doc_id}</td>
-    <td>${d.name} ${d.encrypted?'<span style="color:var(--grn);font-size:10px;font-weight:700">AES-256</span>':''}</td>
-    <td>${U[d.owner_id]||d.owner_id}</td>
-    <td>v${d.version}</td>
-    <td>${formatBytes(d.size)}</td>
-    <td>${d.locked_by?'<span style="color:var(--org)">'+U[d.locked_by]+'</span>':'<span style="color:var(--grn)">Free</span>'}</td>
-    <td><button class="btn btn-out btn-sm" onclick="doDl(${d.doc_id})">Download</button>${w?' <button class="btn btn-out btn-sm" onclick="doRes('+d.doc_id+')">Reserve</button> <button class="btn btn-out btn-sm" onclick="doRel('+d.doc_id+')">Release</button>':''}</td>
-  </tr>`).join("");
+  var w=canWrite();
+  tb.innerHTML=docs.map(function(d){
+    var sc=d.locked_by?(d.locked_by===me.user_id?'status-locked':'status-reserved'):'status-free';
+    var st=d.locked_by?(d.locked_by===me.user_id?'🔒 My Lock':'⏳ Reserved'):'● Free';
+    return '<tr><td>🗂 '+d.name+(d.encrypted?' <span style="color:var(--grn);font-size:9px;font-weight:700">AES-256</span>':'')+'</td><td>'+(U[d.owner_id]||d.owner_id)+'</td><td>v'+d.version+'</td><td>'+formatBytes(d.size)+'</td><td><span class="status-badge '+sc+'">'+st+'</span></td><td><button class="action-btn primary" onclick="doDl('+d.doc_id+')">⬇ Download</button>'+(w&&!d.locked_by?' <button class="action-btn" onclick="doRes('+d.doc_id+')">🔖 Reserve</button>':'')+(w&&d.locked_by===me.user_id?' <button class="action-btn danger" onclick="doRel('+d.doc_id+')">🔓 Release</button>':'')+(d.locked_by&&d.locked_by!==me.user_id?' <button class="action-btn" style="opacity:.4" disabled>🔒 Locked</button>':'')+'</td></tr>'
+  }).join("");
 }
 
 async function doSearch(){
-  const q=document.getElementById("searchQ").value.trim();
+  var q=document.getElementById("searchQ").value.trim();
   if(!q){loadDocs();return}
-  const d=await api("/search","POST",{query:q});
+  var d=await api("/search","POST",{query:q});
   if(d._err){toast("Blocked: "+d.error,"err");return}
-  const tb=document.getElementById("docTb"),em=document.getElementById("docEmpty");
+  var tb=document.getElementById("docTb"),em=document.getElementById("docEmpty");
   if(!d.results.length){tb.innerHTML="";em.style.display="block";em.textContent='No results for "'+q+'"';return}
   em.style.display="none";
-  const w2 = canWrite();
-  tb.innerHTML=d.results.map(d=>`<tr><td>${d.doc_id}</td><td>${d.name}</td><td>${U[d.owner_id]||d.owner_id}</td><td>v${d.version}</td><td>${formatBytes(d.size)}</td><td>${d.locked_by?'<span style="color:var(--org)">Locked</span>':'<span style="color:var(--grn)">Free</span>'}</td><td><button class="btn btn-out btn-sm" onclick="doDl(${d.doc_id})">Download</button>${w2?' <button class="btn btn-out btn-sm" onclick="doRes('+d.doc_id+')">Reserve</button> <button class="btn btn-out btn-sm" onclick="doRel('+d.doc_id+')">Release</button>':''}</td></tr>`).join("");
+  var w2=canWrite();
+  tb.innerHTML=d.results.map(function(d){
+    var sc=d.locked_by?'status-reserved':'status-free';
+    var st=d.locked_by?'⏳ Reserved':'● Free';
+    return '<tr><td>🗂 '+d.name+'</td><td>'+(U[d.owner_id]||d.owner_id)+'</td><td>v'+d.version+'</td><td>'+formatBytes(d.size)+'</td><td><span class="status-badge '+sc+'">'+st+'</span></td><td><button class="action-btn primary" onclick="doDl('+d.doc_id+')">⬇ Download</button>'+(w2?' <button class="action-btn" onclick="doRes('+d.doc_id+')">🔖 Reserve</button> <button class="action-btn" onclick="doRel('+d.doc_id+')">🔓 Release</button>':'')+'</td></tr>'
+  }).join("");
   toast(d.count+" result(s)","info");
 }
 
 async function doDl(id){
-  const d=await api("/download","POST",{user_id:me.user_id,doc_id:id});
-  const el=document.getElementById("dlRes");
-  if(d._err){el.innerHTML=`<div class="res-err">${d.error}</div>`;toast(d.error,"err");return}
+  var d=await api("/download","POST",{user_id:me.user_id,doc_id:id});
+  var el=document.getElementById("dlRes");
+  if(d._err){el.innerHTML='<div class="res-err">'+d.error+'</div>';toast(d.error,"err");return}
   if(d.binary){
-    el.innerHTML=`<div class="card"><h3>Downloaded: ${d.document.name}</h3><p style="color:var(--t2);font-size:13px">Binary file (${formatBytes(d.document.size)}), decrypted successfully.</p></div>`;
+    el.innerHTML='<div class="card"><h3>Downloaded: '+d.document.name+'</h3><p style="color:var(--t2);font-size:12px">Binary file ('+formatBytes(d.document.size)+'), decrypted successfully.</p></div>';
   } else {
-    el.innerHTML=`<div class="card"><h3>Downloaded: ${d.document.name}</h3><p style="color:var(--t2);font-size:12px;margin-bottom:8px">Decrypted content:</p><pre style="background:var(--s2);padding:12px;border-radius:var(--r);font-size:13px;white-space:pre-wrap;max-height:200px;overflow-y:auto">${d.content}</pre></div>`;
+    el.innerHTML='<div class="card"><h3>Downloaded: '+d.document.name+'</h3><p style="color:var(--t2);font-size:11px;margin-bottom:8px">Decrypted content:</p><pre style="background:var(--s3);padding:12px;border-radius:var(--r);font-size:12px;white-space:pre-wrap;max-height:200px;overflow-y:auto;font-family:\'IBM Plex Mono\',monospace">'+d.content+'</pre></div>';
   }
   toast("Decrypted and downloaded","ok");
 }
 
 async function doRes(id){
-  const d=await api("/reserve","POST",{user_id:me.user_id,doc_id:id});
+  var d=await api("/reserve","POST",{user_id:me.user_id,doc_id:id});
   if(d._err){toast(d.error,"err")}else if(d.success){toast("Document "+id+" reserved","ok")}else{toast("Already locked by another user","err")}
   loadDocs();
 }
 async function doRel(id){
-  const d=await api("/release","POST",{user_id:me.user_id,doc_id:id});
+  var d=await api("/release","POST",{user_id:me.user_id,doc_id:id});
   if(d._err){toast(d.error,"err")}else if(d.success){toast("Document "+id+" released","ok")}else{toast("You don't hold the lock","err")}
   loadDocs();
 }
 
-/* ââ AUDIT âââââââââââââââââââââââââââââ */
+/* ── AUDIT ───────────────────────────── */
+var allAuditLogs=[];
 async function loadAudit(){
-  const logs=await api("/audit");
-  document.getElementById("auditTb").innerHTML=logs.slice().reverse().map(e=>`<tr><td>${e.audit_id}</td><td style="font-size:12px">${new Date(e.timestamp).toLocaleString()}</td><td>${U[e.user_id]||e.user_id}</td><td><code>${e.action_type}</code></td><td>${e.document_id??"â"}</td><td style="color:var(--t2);font-size:12px">${e.details||"â"}</td></tr>`).join("")||'<tr><td colspan="6" class="empty">No entries</td></tr>';
+  allAuditLogs=await api("/audit");
+  renderAudit(allAuditLogs);
 }
+function renderAudit(logs){
+  document.getElementById("auditTb").innerHTML=logs.slice().reverse().map(function(e){
+    var action=(e.action_type||'').toLowerCase();
+    var bc='event-login';
+    if(action.indexOf('upload')>=0) bc='event-upload';
+    else if(action.indexOf('download')>=0) bc='event-download';
+    else if(action.indexOf('reserve')>=0||action.indexOf('release')>=0) bc='event-reserve';
+    else if(action.indexOf('fail')>=0||action.indexOf('block')>=0) bc='event-fail';
+    var role=R[e.user_id]||'—';
+    var rc='role-'+(role.toLowerCase());
+    return '<tr><td style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:var(--t2)">'+new Date(e.timestamp).toLocaleString()+'</td><td>'+(U[e.user_id]||e.user_id)+'</td><td><span class="role-badge '+rc+'">'+role+'</span></td><td><span class="event-badge '+bc+'">'+(e.action_type||"—")+'</span></td><td style="font-size:11px">'+(e.document_id!=null?e.document_id:"—")+'</td><td style="color:var(--t2);font-size:11px">'+(e.details||"—")+'</td></tr>'
+  }).join("")||'<tr><td colspan="6" class="empty">No entries</td></tr>';
+}
+function filterAudit(type,btn){
+  document.querySelectorAll('#auditFilters .filter-pill').forEach(function(p){p.classList.remove('active')});
+  btn.classList.add('active');
+  if(type==='all'){renderAudit(allAuditLogs);return}
+  renderAudit(allAuditLogs.filter(function(e){return(e.action_type||'').toLowerCase().indexOf(type)>=0}));
+}
+
 async function genReport(){
   if(!me)return;
-  const d=await api("/audit/report","POST",{user_id:me.user_id});
-  document.getElementById("reportRes").innerHTML=`<div class="card" style="margin-top:14px"><h3>Generated Report (${formatBytes(d.size)})</h3><pre style="background:var(--s2);padding:12px;border-radius:var(--r);font-size:12px;max-height:280px;overflow-y:auto;white-space:pre-wrap">${d.body}</pre></div>`;
+  var d=await api("/audit/report","POST",{user_id:me.user_id});
+  document.getElementById("reportRes").innerHTML='<div class="card" style="margin-top:14px"><h3>Generated Report ('+formatBytes(d.size)+')</h3><pre style="background:var(--s3);padding:12px;border-radius:var(--r);font-size:11px;max-height:280px;overflow-y:auto;white-space:pre-wrap;font-family:\'IBM Plex Mono\',monospace">'+d.body+'</pre></div>';
   toast("Report generated","ok");
 }
 
-/* ââ NOTIFICATIONS âââââââââââââââââââââ */
+/* ── NOTIFICATIONS ───────────────────── */
+var allNotifs=[];
 async function loadNotifs(){
-  const evts=await api("/notifications");
-  const el=document.getElementById("notifList");
+  allNotifs=await api("/notifications");
+  renderNotifs(allNotifs);
+  var nb=document.getElementById("notifBadge");
+  if(allNotifs.length>0){nb.style.display="";nb.textContent=allNotifs.length}else{nb.style.display="none"}
+}
+function renderNotifs(evts){
+  var el=document.getElementById("notifList");
   if(!evts.length){el.innerHTML='<div class="empty">No notifications. Upload or reserve a document to trigger observer events.</div>';return}
-  el.innerHTML=evts.slice().reverse().map(e=>`<div class="nitem"><span class="evb ev-${e.event_type}">${e.event_type}</span><span>Document #${e.document_id} by ${U[e.actor_user_id]||"User "+e.actor_user_id}</span><span style="color:var(--t3);margin-left:auto">${e.details||""}</span></div>`).join("");
+  var iconMap={uploaded:'📤',downloaded:'⬇️',reserved:'🔖',released:'✅'};
+  var iconCls={uploaded:'nicon-green',downloaded:'nicon-blue',reserved:'nicon-warn',released:'nicon-blue'};
+  var titleMap={uploaded:'Document Uploaded',downloaded:'Document Downloaded',reserved:'Document Reserved',released:'Document Released'};
+  el.innerHTML=evts.slice().reverse().map(function(e){
+    var type=e.event_type||'unknown';
+    var icon=iconMap[type]||'📄';
+    var ic=iconCls[type]||'nicon-blue';
+    var title=titleMap[type]||type;
+    var itemCls=type==='reserved'?'nitem unread-warn':'nitem unread';
+    return '<div class="'+itemCls+'"><div class="nitem-icon '+ic+'">'+icon+'</div><div class="nitem-body"><div class="nitem-title">'+title+': Document #'+e.document_id+'</div><div class="nitem-msg">Action by '+(U[e.actor_user_id]||"User "+e.actor_user_id)+(e.details?' — '+e.details:'')+'</div><div class="nitem-meta"><span class="evb ev-'+type+'">'+type.toUpperCase()+'</span></div></div></div>'
+  }).join("");
+}
+function filterNotifs(type,btn){
+  document.querySelectorAll('#notifFilters .filter-pill').forEach(function(p){p.classList.remove('active')});
+  btn.classList.add('active');
+  if(type==='all'){renderNotifs(allNotifs);return}
+  renderNotifs(allNotifs.filter(function(e){return e.event_type===type}));
 }
 
-/* ââ PATTERNS ââââââââââââââââââââââââââ */
+/* ── PATTERNS ────────────────────────── */
 async function loadPats(){
-  const pats=await api("/patterns");
-  document.getElementById("patGrid").innerHTML=pats.map(p=>`<div class="pcard"><h3>${p.name}</h3><div class="cls">${p.class}</div><p>${p.description}</p><div class="fl">${p.file}</div></div>`).join("");
+  var pats=await api("/patterns");
+  document.getElementById("patGrid").innerHTML=pats.map(function(p){return '<div class="pcard"><h3>'+p.name+'</h3><div class="cls">'+p.class+'</div><p>'+p.description+'</p><div class="fl">'+p.file+'</div></div>'}).join("");
 }
 
-/* ââ ATTACKS âââââââââââââââââââââââââââ */
+/* ── ATTACKS ─────────────────────────── */
 async function atkPath(){
-  const d=await api("/upload-text","POST",{user_id:me.user_id,filename:"../etc/passwd",content:"malicious payload"});
+  var d=await api("/upload-text","POST",{user_id:me.user_id,filename:"../etc/passwd",content:"malicious payload"});
   document.getElementById("atkPathRes").innerHTML=d._err
-    ?`<div class="res-err"><strong>BLOCKED by SecurityProxy._sanitize()</strong><br>Filename rejected: ${d.error}<br><span style="opacity:.7">The regex <code>^[A-Za-z0-9_\\-. ()]{1,128}$</code> rejects path separators and special characters.</span></div>`
-    :`<div class="res-ok">Unexpected: upload succeeded</div>`;
+    ?'<div class="res-err"><strong>BLOCKED by SecurityProxy._sanitize()</strong><br>Filename rejected: '+d.error+'<br><span style="opacity:.7">The regex <code>^[A-Za-z0-9_\\-. ()]{1,128}$</code> rejects path separators and special characters.</span></div>'
+    :'<div class="res-ok">Unexpected: upload succeeded</div>';
 }
 async function atkSql(){
-  const d=await api("/search","POST",{query:"'; DROP TABLE users; --"});
+  var d=await api("/search","POST",{query:"'; DROP TABLE users; --"});
   document.getElementById("atkSqlRes").innerHTML=d._err
-    ?`<div class="res-err"><strong>BLOCKED by SecurityProxy._validate_input()</strong><br>${d.error}<br><span style="opacity:.7">Characters <code>; -- &lt; &gt;</code> are rejected from search queries.</span></div>`
-    :`<div class="res-ok">Unexpected: search succeeded</div>`;
+    ?'<div class="res-err"><strong>BLOCKED by SecurityProxy._validate_input()</strong><br>'+d.error+'<br><span style="opacity:.7">Characters <code>; -- &lt; &gt;</code> are rejected from search queries.</span></div>'
+    :'<div class="res-ok">Unexpected: search succeeded</div>';
 }
 async function atkPerm(){
-  const d=await api("/upload-text","POST",{user_id:3,filename:"escalation.pdf",content:"viewer attempting write"});
+  var d=await api("/upload-text","POST",{user_id:3,filename:"escalation.pdf",content:"viewer attempting write"});
   document.getElementById("atkPermRes").innerHTML=d._err
-    ?`<div class="res-warn"><strong>BLOCKED by SecurityProxy._check_permission()</strong><br>${d.error}<br><span style="opacity:.7">Viewer role only has <code>["read"]</code> permission. Write requires Editor or Admin.</span></div>`
-    :`<div class="res-ok">Unexpected: upload succeeded</div>`;
+    ?'<div class="res-warn"><strong>BLOCKED by SecurityProxy._check_permission()</strong><br>'+d.error+'<br><span style="opacity:.7">Viewer role only has <code>["read"]</code> permission. Write requires Editor or Admin.</span></div>'
+    :'<div class="res-ok">Unexpected: upload succeeded</div>';
 }
 async function atkRate(){
-  const el=document.getElementById("atkRateRes");
+  var el=document.getElementById("atkRateRes");
   el.innerHTML='<div class="res-info">Sending 11 rapid requests...</div>';
-  let blocked=false;let count=0;
-  for(let i=0;i<11;i++){
-    const d=await api("/upload-text","POST",{user_id:me.user_id,filename:`ratelimit_${i}.txt`,content:"flood"});
-    if(d._err&&d.error&&d.error.includes("Rate limit")){blocked=true;count=i+1;break}
+  var blocked=false,count=0;
+  for(var i=0;i<11;i++){
+    var d=await api("/upload-text","POST",{user_id:me.user_id,filename:"ratelimit_"+i+".txt",content:"flood"});
+    if(d._err&&d.error&&d.error.indexOf("Rate limit")>=0){blocked=true;count=i+1;break}
     count=i+1;
   }
   el.innerHTML=blocked
-    ?`<div class="res-err"><strong>BLOCKED by SecurityProxy._check_rate_limit()</strong><br>Request #${count} was rejected.<br><span style="opacity:.7">Sliding window: max 10 requests per 60 seconds per user.</span></div>`
-    :`<div class="res-warn">Rate limit was not triggered within 11 requests.</div>`;
+    ?'<div class="res-err"><strong>BLOCKED by SecurityProxy._check_rate_limit()</strong><br>Request #'+count+' was rejected.<br><span style="opacity:.7">Sliding window: max 10 requests per 60 seconds per user.</span></div>'
+    :'<div class="res-warn">Rate limit was not triggered within 11 requests.</div>';
 }
 </script>
 </body>
